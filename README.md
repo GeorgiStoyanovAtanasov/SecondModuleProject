@@ -1,0 +1,2 @@
+# SecondModuleProject
+A copy of the classic Pokemon games. The player is a Pokémon trainer and participates in battles from which he wins various prizes or Pokémon. The game has five battles. The user initially chooses three Pokemon (out of 5 possible) and enters a tournament. There are five rounds, each round you battle 1 Pokemon. Each Pokemon has some stats and attacks. The battle is turn based, the user chooses which attack to use on the pokemon or switch pokemon.
