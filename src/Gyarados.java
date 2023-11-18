@@ -14,7 +14,6 @@ public class Gyarados extends Pokemon{
         this.setAttackPoints(this.getAttackPoints() + (this.getAttackPoints()/5));
         this.setDefensePoints((this.getDefensePoints() + (this.getDefensePoints()/5)));
     }
-
     @Override
     void chooseAttack() {
 
