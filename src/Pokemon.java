@@ -15,7 +15,7 @@ public abstract class Pokemon extends Battle{
     void setChosenPokemon(Pokemon pokemon) {
         chosenPokemon = pokemon;
     }
-    public void round1() {
+    public void round1() throws InterruptedException {
         enemyPokemon = new EnemyPokemon1();
         System.out.println(enemyPokemon.name);
         chosenPokemon.chooseAttack();
@@ -46,5 +46,6 @@ public abstract class Pokemon extends Battle{
     }
 
     abstract void strengthModifier();
-    abstract void chooseAttack();
+    abstract void chooseAttack() throws InterruptedException;
+    //abstract void chooseAttackAfterUltimate();
 }

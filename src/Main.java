@@ -33,11 +33,8 @@ public class Main {
     public static void round1(Pokemon chosenPokemon) throws InterruptedException {
         realMenu();
         Scanner sc = new Scanner(System.in);
-
-        // System.out.println("Choose a pokemon to begin round the first round of the tournament:");
-        // menu();
-
         chosenPokemon.enemyPokemon = new EnemyPokemon1();
+        chosenPokemon.enemyPokemon.strengthModifier();
         chosenPokemon.enemyPokemon.setChosenPokemon(chosenPokemon);
         System.out.println("The health of your pokemon is " + chosenPokemon.getHealthPoints());
         System.out.println("The health of the enemy pokemon is " + chosenPokemon.enemyPokemon.getHealthPoints());
@@ -67,14 +64,6 @@ public class Main {
                 arrayListOfChosenPokemon.remove(chosenPokemon);
                 realMenu();
                 int choice = sc.nextInt();
-                //switch (choice) {
-                //    case 1 -> chosenPokemon = pokemon1;
-                //    case 2 -> chosenPokemon = pokemon2;
-                 //   case 3 -> chosenPokemon = pokemon3;
-                 //   case 4 -> chosenPokemon = pokemon4;
-                 //   case 5 -> chosenPokemon = pokemon5;
-                 //   default -> System.out.println("This choice is not available.");
-                //}
                 for (int i = 0; i < arrayListOfChosenPokemon.size(); i++) {
                     if(choice == (i+1)){
                        chosenPokemon = arrayListOfChosenPokemon.get(i);
@@ -128,8 +117,6 @@ public class Main {
                     default:
                         throw new IllegalStateException("This choice is not available.");
                 }
-
-                // Check if the chosen Pokemon is already in the list
                 if (!arrayListOfChosenPokemon.contains(chosenPokemon)) {
                     arrayListOfChosenPokemon.add(chosenPokemon);
                     tries++;
@@ -143,14 +130,10 @@ public class Main {
         System.out.println();
         System.out.print("The pokemon that you have chosen are: ");
         for (Pokemon chosen : arrayListOfChosenPokemon) {
+            chosen.strengthModifier();
             System.out.print(chosen.name + ", ");
         }
         System.out.println();
-        // System.out.println("Choose a pokemon to begin the tournament with:\n" +
-        //         "1 - for " + arrayListOfChosenPokemon.get(0).name + "\n" +
-        //         "2 - for " + arrayListOfChosenPokemon.get(1).name + "\n" +
-        //         "3 - for " + arrayListOfChosenPokemon.get(2).name);
-        // int choiceForPokemonToBeginTheFirstRoundWith = sc.nextInt();
         int choiceForPokemonToBeginTheFirstRoundWith;
         do {
             System.out.println("Choose a pokemon to begin the tournament with:\n" +
