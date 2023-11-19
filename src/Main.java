@@ -1,3 +1,6 @@
+//before you read this code,  you should know that the plural for pokemon is pokemon not pokemons
+
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -11,6 +14,7 @@ public class Main {
     protected static Pokemon chosenPokemon1;
     protected static Pokemon chosenPokemon2;
     protected static Pokemon chosenPokemon3;
+    protected static ArrayList<Pokemon> arrayListOfChosenPokemon = new ArrayList<>(3);
 
     public static void menu() {
         System.out.println("1 - Pikachu.");
@@ -20,20 +24,29 @@ public class Main {
         System.out.println("5 - Gyarados.");
     }
 
+    public static void realMenu() {
+        for (int i = 0; i < arrayListOfChosenPokemon.size(); i++) {
+            System.out.println((i + 1) + " - " + arrayListOfChosenPokemon.get(i).name);
+        }
+    }
+
     public static void round1(Pokemon chosenPokemon) throws InterruptedException {
+        realMenu();
         Scanner sc = new Scanner(System.in);
 
         // System.out.println("Choose a pokemon to begin round the first round of the tournament:");
-       // menu();
+        // menu();
 
         chosenPokemon.enemyPokemon = new EnemyPokemon1();
         chosenPokemon.enemyPokemon.setChosenPokemon(chosenPokemon);
         System.out.println("The health of your pokemon is " + chosenPokemon.getHealthPoints());
         System.out.println("The health of the enemy pokemon is " + chosenPokemon.enemyPokemon.getHealthPoints());
+        System.out.println();
 
         while (chosenPokemon.getHealthPoints() > 0 && chosenPokemon.enemyPokemon.getHealthPoints() > 0) {
             chosenPokemon.chooseAttack();
             if (chosenPokemon.enemyPokemon.getHealthPoints() <= 0) {
+                System.out.println();
                 System.out.println("The enemy pokemon has fallen. VICTORY");
                 round2(chosenPokemon);
                 break;
@@ -43,57 +56,126 @@ public class Main {
             System.out.println("The health of the enemy pokemon is " + chosenPokemon.enemyPokemon.getHealthPoints());
             chosenPokemon.enemyPokemon.chooseAttack();
             System.out.println();
-            Thread.sleep(3000);
+            Thread.sleep(2000);
             System.out.println("The health of your pokemon is " + chosenPokemon.getHealthPoints());
             System.out.println("The health of the enemy pokemon is " + chosenPokemon.enemyPokemon.getHealthPoints());
             //if (chosenPokemon.getHealthPoints() <= 0) {
-                while (chosenPokemon.getHealthPoints() <= 0) {
-                    EnemyPokemon1 testPokemon = new EnemyPokemon1();
-                    int difference = chosenPokemon.enemyPokemon.getHealthPoints();
-                    System.out.println("Your Pokemon has fallen.");
-                    menu();
-                    int choice = sc.nextInt();
-                    switch (choice) {
-                        case 1 -> chosenPokemon = pokemon1;
-                        case 2 -> chosenPokemon = pokemon2;
-                        case 3 -> chosenPokemon = pokemon3;
-                        case 4 -> chosenPokemon = pokemon4;
-                        case 5 -> chosenPokemon = pokemon5;
-                        default -> System.out.println("This choice is not available.");
-                    }
-                    if(chosenPokemon.getHealthPoints() <= 0){
-                        System.out.println("This pokemon has already fallen, choose another one");
-                    } else {
-                        chosenPokemon.enemyPokemon = new EnemyPokemon1();
-                        chosenPokemon.enemyPokemon.setHealthPoints(difference);
-                        chosenPokemon.enemyPokemon.setChosenPokemon(chosenPokemon);
-                        System.out.println("The health of your new pokemon is " + chosenPokemon.getHealthPoints());
-                        System.out.println("The health of the enemy pokemon is " + chosenPokemon.enemyPokemon.getHealthPoints());
+            while (chosenPokemon.getHealthPoints() <= 0) {
+                EnemyPokemon1 testPokemon = new EnemyPokemon1();
+                int difference = chosenPokemon.enemyPokemon.getHealthPoints();
+                System.out.println("Your Pokemon has fallen.");
+                arrayListOfChosenPokemon.remove(chosenPokemon);
+                realMenu();
+                int choice = sc.nextInt();
+                //switch (choice) {
+                //    case 1 -> chosenPokemon = pokemon1;
+                //    case 2 -> chosenPokemon = pokemon2;
+                 //   case 3 -> chosenPokemon = pokemon3;
+                 //   case 4 -> chosenPokemon = pokemon4;
+                 //   case 5 -> chosenPokemon = pokemon5;
+                 //   default -> System.out.println("This choice is not available.");
+                //}
+                for (int i = 0; i < arrayListOfChosenPokemon.size(); i++) {
+                    if(choice == (i+1)){
+                       chosenPokemon = arrayListOfChosenPokemon.get(i);
                     }
                 }
+                if (chosenPokemon.getHealthPoints() <= 0) {
+                    System.out.println("This pokemon has already fallen, choose another one");
+                } else {
+                    chosenPokemon.enemyPokemon = new EnemyPokemon1();
+                    chosenPokemon.enemyPokemon.setHealthPoints(difference);
+                    chosenPokemon.enemyPokemon.setChosenPokemon(chosenPokemon);
+                    System.out.println("The health of your new pokemon is " + chosenPokemon.getHealthPoints());
+                    System.out.println("The health of the enemy pokemon is " + chosenPokemon.enemyPokemon.getHealthPoints());
+                }
+            }
             //}
         }
     }
-    public static void round2(Pokemon chosenPokemon){
+
+    public static void round2(Pokemon chosenPokemon) {
         //here we change the object enemyPokemon frm EnemyPokemon1 to EnemyPokemon2 and make the round2 method
     }
 
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int tries = 0;
+
         try {
-            Scanner sc = new Scanner(System.in);
-            Pokemon chosenPokemon;
-            int choice = sc.nextInt();
-            switch (choice) {
-                case 1 -> chosenPokemon = pokemon1;
-                case 2 -> chosenPokemon = pokemon2;
-                case 3 -> chosenPokemon = pokemon3;
-                case 4 -> chosenPokemon = pokemon4;
-                case 5 -> chosenPokemon = pokemon5;
-                default -> throw new IllegalStateException("This choice is not available.");
+            System.out.println("Choose 3 pokemon for your team.");
+            menu();
+            while (tries < 3) {
+                Pokemon chosenPokemon;
+                int choice = sc.nextInt();
+
+                switch (choice) {
+                    case 1:
+                        chosenPokemon = pokemon1;
+                        break;
+                    case 2:
+                        chosenPokemon = pokemon2;
+                        break;
+                    case 3:
+                        chosenPokemon = pokemon3;
+                        break;
+                    case 4:
+                        chosenPokemon = pokemon4;
+                        break;
+                    case 5:
+                        chosenPokemon = pokemon5;
+                        break;
+                    default:
+                        throw new IllegalStateException("This choice is not available.");
+                }
+
+                // Check if the chosen Pokemon is already in the list
+                if (!arrayListOfChosenPokemon.contains(chosenPokemon)) {
+                    arrayListOfChosenPokemon.add(chosenPokemon);
+                    tries++;
+                } else {
+                    System.out.println("You cannot choose the same pokemon twice.");
+                }
             }
-            round1(chosenPokemon);
-        } catch(Exception e){
-            throw new NullPointerException();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        System.out.println();
+        System.out.print("The pokemon that you have chosen are: ");
+        for (Pokemon chosen : arrayListOfChosenPokemon) {
+            System.out.print(chosen.name + ", ");
+        }
+        System.out.println();
+        // System.out.println("Choose a pokemon to begin the tournament with:\n" +
+        //         "1 - for " + arrayListOfChosenPokemon.get(0).name + "\n" +
+        //         "2 - for " + arrayListOfChosenPokemon.get(1).name + "\n" +
+        //         "3 - for " + arrayListOfChosenPokemon.get(2).name);
+        // int choiceForPokemonToBeginTheFirstRoundWith = sc.nextInt();
+        int choiceForPokemonToBeginTheFirstRoundWith;
+        do {
+            System.out.println("Choose a pokemon to begin the tournament with:\n" +
+                    "1 - for " + arrayListOfChosenPokemon.get(0).name + "\n" +
+                    "2 - for " + arrayListOfChosenPokemon.get(1).name + "\n" +
+                    "3 - for " + arrayListOfChosenPokemon.get(2).name);
+            choiceForPokemonToBeginTheFirstRoundWith = sc.nextInt();
+
+            try {
+                switch (choiceForPokemonToBeginTheFirstRoundWith) {
+                    case 1:
+                        round1(arrayListOfChosenPokemon.get(0));
+                        break;
+                    case 2:
+                        round1(arrayListOfChosenPokemon.get(1));
+                        break;
+                    case 3:
+                        round1(arrayListOfChosenPokemon.get(2));
+                        break;
+                    default:
+                        System.out.println("Enter a valid choice.");
+                }
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        } while (choiceForPokemonToBeginTheFirstRoundWith < 1 || choiceForPokemonToBeginTheFirstRoundWith > 3);
     }
 }
