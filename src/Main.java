@@ -54,10 +54,9 @@ public class Main {
             System.out.println();
             Thread.sleep(2000);
             displayHealth(chosenPokemon);
-            //if (chosenPokemon.getHealthPoints() <= 0) {
             while (chosenPokemon.getHealthPoints() <= 0) {
                 EnemyPokemon1 testPokemon = new EnemyPokemon1();
-                int difference = chosenPokemon.enemyPokemon.getHealthPoints();
+                int enemyPokemonHealthAfterNewChosenPokemonIsAssigned = chosenPokemon.enemyPokemon.getHealthPoints();
                 System.out.println("Your Pokemon has fallen.");
                 arrayListOfChosenPokemon.remove(chosenPokemon);
                 realMenu();
@@ -71,13 +70,12 @@ public class Main {
                     System.out.println("This pokemon has already fallen, choose another one");
                 } else {
                     chosenPokemon.enemyPokemon = new EnemyPokemon1();
-                    chosenPokemon.enemyPokemon.setHealthPoints(difference);
+                    chosenPokemon.enemyPokemon.setHealthPoints(enemyPokemonHealthAfterNewChosenPokemonIsAssigned);
                     chosenPokemon.enemyPokemon.setChosenPokemon(chosenPokemon);
                     System.out.println("The health of your new pokemon is " + chosenPokemon.getHealthPoints());
                     System.out.println("The health of the enemy pokemon is " + chosenPokemon.enemyPokemon.getHealthPoints());
                 }
             }
-            //}
         }
     }
 
@@ -116,11 +114,17 @@ public class Main {
             displayHealth(chosenPokemon);
 
             if (chosenPokemon.getHealthPoints() <= 0) {
-                handleFaintedPokemon(chosenPokemon);
+                EnemyPokemon2 enemyPokemon2 = (EnemyPokemon2) chosenPokemon.enemyPokemon;
+                chosenPokemon = handleFaintedPokemon(chosenPokemon);
+                chosenPokemon.enemyPokemon = enemyPokemon2;
+                chosenPokemon.enemyPokemon.setChosenPokemon(chosenPokemon);
             }
         }
     }
 
+    public static void round3(Pokemon chosenPokemon) throws InterruptedException {
+
+    }
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -197,26 +201,23 @@ public class Main {
         } while (choiceForPokemonToBeginTheFirstRoundWith < 1 || choiceForPokemonToBeginTheFirstRoundWith > 3);
     }
 
-    private static void handleFaintedPokemon(Pokemon chosenPokemon) {
+    private static Pokemon handleFaintedPokemon(Pokemon chosenPokemon) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Your Pokemon has fainted.");
-        arrayListOfChosenPokemon.remove(chosenPokemon);
-        menu();
-
+        realMenu();
         int choice = scanner.nextInt();
         chosenPokemon = arrayListOfChosenPokemon.get(choice - 1);
 
         if (chosenPokemon.getHealthPoints() <= 0) {
             System.out.println("This Pokemon has already fainted. Choose another one.");
-            handleFaintedPokemon(chosenPokemon);
-        } else {;
-            chosenPokemon.enemyPokemon = new EnemyPokemon2();
-            System.out.println("Your new Pokemon's health: " + chosenPokemon.getHealthPoints());
-            System.out.println("Enemy Pokemon's health: " + chosenPokemon.enemyPokemon.getHealthPoints());
+            return handleFaintedPokemon(chosenPokemon);
+        } else {
+            return chosenPokemon;
         }
     }
+
     private static void displayHealth(Pokemon chosenPokemon) {
         System.out.println("Your Pokemon's health: " + chosenPokemon.getHealthPoints());
         System.out.println("Enemy Pokemon's health: " + chosenPokemon.enemyPokemon.getHealthPoints());
     }
-    }
+}

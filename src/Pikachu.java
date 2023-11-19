@@ -81,7 +81,7 @@ public class Pikachu extends Pokemon {
         } else if (choice == 3 && !ultimateUsed) {
             ultimate();
         } else {
-            System.out.println("You have used an illegal skill, you are disqualified.");
+            System.out.println("You are trying to use an an illegal move.");
             chooseAttack2();
             //System.exit(0);
         }
