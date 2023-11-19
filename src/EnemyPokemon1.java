@@ -17,7 +17,6 @@ public class EnemyPokemon1 extends Pokemon {
         this.setAttackPoints(this.getAttackPoints() - (this.getAttackPoints() / 10));
         this.setDefensePoints((this.getDefensePoints() - (this.getDefensePoints() / 10)));
     }
-
     @Override
     void chooseAttack() {
         //this is the random function for choosing an attack, which we will use when we make more than one attack
@@ -25,9 +24,9 @@ public class EnemyPokemon1 extends Pokemon {
         //int randomNumber = random.nextInt(3) + 1;
         attack1();
     }
-
     void attack1() {
         System.out.println(chosenPokemon.name + " has been attack by the first attack of Eevee");
             chosenPokemon.setHealthPoints(chosenPokemon.getHealthPoints() - 20);
     }
+    //.
 }

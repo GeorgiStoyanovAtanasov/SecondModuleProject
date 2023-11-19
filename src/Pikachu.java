@@ -12,8 +12,6 @@ public class Pikachu extends Pokemon {
         this.setAttackPoints(50);
         this.setDefensePoints(40);
     }
-
-
     @Override
     void strengthModifier() {
         this.setHealthPoints(this.getHealthPoints() - (this.getHealthPoints() / 10));

@@ -8,7 +8,6 @@ public class Bulbasaur extends Pokemon{
         this.setAttackPoints(49);
         this.setDefensePoints(49);
     }
-
     @Override
     void strengthModifier() {
         this.setHealthPoints(this.getHealthPoints() - (this.getHealthPoints()/10));
