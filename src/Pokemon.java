@@ -15,7 +15,6 @@ public abstract class Pokemon extends Battle{
     void setChosenPokemon(Pokemon pokemon) {
         chosenPokemon = pokemon;
     }
-
     public void round1() {
         enemyPokemon = new EnemyPokemon1();
         System.out.println(enemyPokemon.name);
