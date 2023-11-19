@@ -50,7 +50,6 @@ public class EnemyPokemon2 extends Pokemon {
         System.out.println("Play Rough.");
         int punches = 0;
         while (punches < 3) {
-
             this.chosenPokemon.setHealthPoints(this.chosenPokemon.getHealthPoints() - 10);
             System.out.println("The health of the your Pokemon is " + chosenPokemon.getHealthPoints());
             Thread.sleep(500);
