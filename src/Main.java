@@ -83,8 +83,8 @@ public class Main {
         }
     }
 
-    public static void round2(Pokemon chosenPokemon) {
-        //here we change the object enemyPokemon frm EnemyPokemon1 to EnemyPokemon2 and make the round2 method
+    public static void round2(Pokemon chosenPokemon) throws InterruptedException {
+
     }
 
     public static void main(String[] args) {
