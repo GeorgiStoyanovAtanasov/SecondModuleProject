@@ -42,11 +42,10 @@ public class Pikachu extends Pokemon {
 
 
     void attack1() throws InterruptedException {
-        lastChosenAttack = 1;
         System.out.println(this.enemyPokemon.name + " is attacked by Thunder shock.");
         this.enemyPokemon.setHealthPoints(this.enemyPokemon.getHealthPoints() - 20);
-        System.out.println("The health of the enemy pokemon is " + enemyPokemon.getHealthPoints());
         if(enemyPokemon.getHealthPoints() > 0) {
+            System.out.println("The health of the enemy pokemon is " + enemyPokemon.getHealthPoints());
             System.out.println("The enemy pokemon is stunned, you can attack again");
             chooseAttack2();
         }
@@ -77,8 +76,10 @@ public class Pikachu extends Pokemon {
         System.out.println("Choose attack: 2 - Thunderbolt, 3 - Ultimate(can be used by a pokemon only once during the tournament).");
         byte choice = sc.nextByte();
         if (choice == 2 && lastChosenAttack != 2) {
+            lastChosenAttack = 1;
             attack2();
         } else if (choice == 3 && !ultimateUsed) {
+            lastChosenAttack = 1;
             ultimate();
         } else {
             System.out.println("You are trying to use an an illegal move.");

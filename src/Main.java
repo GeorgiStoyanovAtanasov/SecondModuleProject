@@ -50,7 +50,6 @@ public class Main {
             Thread.sleep(2000);
             displayHealth(chosenPokemon);
             while (chosenPokemon.getHealthPoints() <= 0) {
-                EnemyPokemon1 testPokemon = new EnemyPokemon1();
                 int enemyPokemonHealthAfterNewChosenPokemonIsAssigned = chosenPokemon.enemyPokemon.getHealthPoints();
                 System.out.println("Your Pokemon has fallen.");
                 arrayListOfChosenPokemon.remove(chosenPokemon);
@@ -68,6 +67,7 @@ public class Main {
                     chosenPokemon.enemyPokemon.setHealthPoints(enemyPokemonHealthAfterNewChosenPokemonIsAssigned);
                     chosenPokemon.enemyPokemon.setChosenPokemon(chosenPokemon);
                     chosenPokemon.enemyPokemon.strengthModifier();
+                    chosenPokemon.enemyPokemon.setUltimateUsed(true);
                     System.out.println("The health of your new pokemon is " + chosenPokemon.getHealthPoints());
                     System.out.println("The health of the enemy pokemon is " + chosenPokemon.enemyPokemon.getHealthPoints());
                 }
@@ -78,7 +78,6 @@ public class Main {
 
     public static void round2(Pokemon chosenPokemon) throws InterruptedException {
         realMenu();
-        Scanner scanner = new Scanner(System.in);
         System.out.println("A wild enemy Pokemon has appeared!");
 
         chosenPokemon.enemyPokemon = new EnemyPokemon2();
@@ -213,12 +212,11 @@ public class Main {
     }
 
     private static void displayHealth(Pokemon chosenPokemon) {
-        if(chosenPokemon.getHealthPoints() > 0) {
+        if (chosenPokemon.getHealthPoints() > 0) {
             System.out.println("Your Pokemon's health: " + chosenPokemon.getHealthPoints());
         }
-        if(chosenPokemon.enemyPokemon.getHealthPoints() > 0) {
+        if (chosenPokemon.enemyPokemon.getHealthPoints() > 0) {
             System.out.println("Enemy Pokemon's health: " + chosenPokemon.enemyPokemon.getHealthPoints());
         }
     }
-    //to do - use the strengthModifier method on every pokemon
 }
