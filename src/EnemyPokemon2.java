@@ -61,26 +61,22 @@ public class EnemyPokemon2 extends Pokemon {
         lastChosenAttack = 3;
         System.out.println("Ultimate attack!");
         System.out.println("Hypnosis");
-        int limitForWhileLoop = chosenPokemon.getHealthPoints() / 20;
-        while (chosenPokemon.getHealthPoints() > 0) {
-            System.out.println("Your pokemon is hypnotised.");
-            chosenPokemon.setHealthPoints(chosenPokemon.getHealthPoints() - 5);
-            System.out.println("The health of the enemy Pokemon is " + chosenPokemon.getHealthPoints());
-            Thread.sleep(100);
-        }
+        System.out.println(chosenPokemon.name +" is hypnotised.");
         ultimateUsed = true;
+        chooseAttack2();
         System.out.println();
     }
     void chooseAttack2() throws InterruptedException {
         Random random = new Random();
-        int randomNumber = random.nextInt(3) + 1;
-        if (randomNumber == 2 && lastChosenAttack != 2) {
-            attack2();
-        } else if (randomNumber == 3 && !ultimateUsed) {
-            ultimate();
-        } else {
-            System.out.println("You are trying to use an an illegal move.");
-            chooseAttack2();
+        int count = 0;
+        while(count < 2) {
+            int randomNumber = random.nextInt(2) + 2;
+            if (randomNumber == 2 && lastChosenAttack != 2) {
+                attack2();
+            } else if (randomNumber == 3 && !ultimateUsed) {
+                ultimate();
+            }
+            count++;
         }
     }
 }

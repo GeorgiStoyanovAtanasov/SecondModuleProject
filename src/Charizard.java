@@ -15,7 +15,7 @@ public class Charizard extends Pokemon{
     @Override
     void chooseAttack() {
         //we don't have methods for attack yet
-        System.out.println(enemyPokemon.name + " has been attack by the first attack of Charizard");
+        System.out.println(enemyPokemon.name + " has been attacked by the first attack of Charizard");
         this.enemyPokemon.setHealthPoints(this.enemyPokemon.getHealthPoints() - 20);
         // this.enemyPokemon.setHealthPoints(this.enemyPokemon.getHealthPoints() - 20);
     }

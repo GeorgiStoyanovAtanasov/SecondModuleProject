@@ -9,16 +9,15 @@ public abstract class Pokemon extends Battle{
     private int attackPoints;
     private int defensePoints;
     ArrayList<Pokemon> listOfPokemon = new ArrayList<>();
+    public boolean ultimateUsed;
     public Pokemon enemyPokemon;
     public Pokemon chosenPokemon;
 
     void setChosenPokemon(Pokemon pokemon) {
         chosenPokemon = pokemon;
     }
-    public void round1() throws InterruptedException {
-        enemyPokemon = new EnemyPokemon1();
-        System.out.println(enemyPokemon.name);
-        chosenPokemon.chooseAttack();
+    void setUltimateUsed(boolean ultimateUsed){
+        this.ultimateUsed = ultimateUsed;
     }
 
     public int getHealthPoints() {
