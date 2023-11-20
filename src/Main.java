@@ -4,16 +4,11 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-
-    //so far the code only works if the user chooses pokemon 1 and the only attack they can use is the first one because the other pokemon classes and attack methods are still in development
     protected static Pokemon pokemon1 = new Pikachu();
     protected static Pokemon pokemon2 = new Charizard();
     protected static Pokemon pokemon3 = new Snorlax();
     protected static Pokemon pokemon4 = new Bulbasaur();
     protected static Pokemon pokemon5 = new Gyarados();
-    protected static Pokemon chosenPokemon1;
-    protected static Pokemon chosenPokemon2;
-    protected static Pokemon chosenPokemon3;
     protected static ArrayList<Pokemon> arrayListOfChosenPokemon = new ArrayList<>(3);
 
 
@@ -72,6 +67,7 @@ public class Main {
                     chosenPokemon.enemyPokemon = new EnemyPokemon1();
                     chosenPokemon.enemyPokemon.setHealthPoints(enemyPokemonHealthAfterNewChosenPokemonIsAssigned);
                     chosenPokemon.enemyPokemon.setChosenPokemon(chosenPokemon);
+                    chosenPokemon.enemyPokemon.strengthModifier();
                     System.out.println("The health of your new pokemon is " + chosenPokemon.getHealthPoints());
                     System.out.println("The health of the enemy pokemon is " + chosenPokemon.enemyPokemon.getHealthPoints());
                 }
@@ -217,7 +213,12 @@ public class Main {
     }
 
     private static void displayHealth(Pokemon chosenPokemon) {
-        System.out.println("Your Pokemon's health: " + chosenPokemon.getHealthPoints());
-        System.out.println("Enemy Pokemon's health: " + chosenPokemon.enemyPokemon.getHealthPoints());
+        if(chosenPokemon.getHealthPoints() > 0) {
+            System.out.println("Your Pokemon's health: " + chosenPokemon.getHealthPoints());
+        }
+        if(chosenPokemon.enemyPokemon.getHealthPoints() > 0) {
+            System.out.println("Enemy Pokemon's health: " + chosenPokemon.enemyPokemon.getHealthPoints());
+        }
     }
+    //to do - use the strengthModifier method on every pokemon
 }

@@ -71,6 +71,18 @@ public class EnemyPokemon2 extends Pokemon {
         ultimateUsed = true;
         System.out.println();
     }
+    void chooseAttack2() throws InterruptedException {
+        Random random = new Random();
+        int randomNumber = random.nextInt(3) + 1;
+        if (randomNumber == 2 && lastChosenAttack != 2) {
+            attack2();
+        } else if (randomNumber == 3 && !ultimateUsed) {
+            ultimate();
+        } else {
+            System.out.println("You are trying to use an an illegal move.");
+            chooseAttack2();
+        }
+    }
 }
 
 
