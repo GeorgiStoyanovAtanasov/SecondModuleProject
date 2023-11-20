@@ -42,14 +42,17 @@ public class EnemyPokemon3 extends Pokemon {
         Scanner sc = new Scanner(System.in);
         int randomNumber = random.nextInt(2) + 1;
         System.out.println(name + " has used Psycho cut. You can dodge it if you correctly guess a random number which is either 1 or 2. Good luck.");
+        Thread.sleep(1000);
         System.out.println("Enter Your guess: ");
         int guess = sc.nextInt();
         if (guess != randomNumber) {
             if (chosenPokemon.getHealthPoints() > 0) {
+                Thread.sleep(1000);
                 System.out.println("You guessed wrong," + chosenPokemon.name + " is cut through by Psycho Cut.");
                 this.chosenPokemon.setHealthPoints(chosenPokemon.getDefensePoints() - getAttackPoints());
             }
         } else {
+            Thread.sleep(1000);
             System.out.println("You guessed right.");
         }
     }
