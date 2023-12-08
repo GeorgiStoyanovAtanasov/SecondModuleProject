@@ -26,7 +26,10 @@ public class Main {
     }
 
     public static void round(Pokemon chosenPokemon, Pokemon enemyPokemon) throws InterruptedException {
+        int counter = 1;
         realMenu();
+        chosenPokemon.enemyPokemon = enemyPokemon;
+        chosenPokemon.enemyPokemon.setChosenPokemon(chosenPokemon);
         displayHealth(chosenPokemon, enemyPokemon);
 
         while (chosenPokemon.getHealthPoints() > 0 && enemyPokemon.getHealthPoints() > 0) {
@@ -34,10 +37,29 @@ public class Main {
 
             if (enemyPokemon.getHealthPoints() <= 0) {
                 System.out.println("The enemy Pokemon has fainted. VICTORY!");
-                break;
+                counter++;
+                switch (counter) {
+                    case 1:
+                        chosenPokemon.enemyPokemon = new EnemyPokemon1();
+                        break;
+                    case 2:
+                        chosenPokemon.enemyPokemon = new EnemyPokemon2();
+                        break;
+                    case 3:
+                        chosenPokemon.enemyPokemon = new EnemyPokemon3();
+                        break;
+                    case 4:
+                        chosenPokemon.enemyPokemon = new EnemyPokemon4();
+                        break;
+                    case 5:
+                        chosenPokemon.enemyPokemon = new EnemyPokemon5();
+                        break;
+                }
+                continue;
             }
 
             displayHealth(chosenPokemon, enemyPokemon);
+
             enemyPokemon.chooseAttack();
             System.out.println();
 
@@ -51,8 +73,9 @@ public class Main {
 
             if (chosenPokemon.getHealthPoints() <= 0) {
                 chosenPokemon = handleFaintedPokemon();
-                chosenPokemon.enemyPokemon = enemyPokemon;
+                chosenPokemon.enemyPokemon = enemyPokemon;  // Update the chosenPokemon's enemyPokemon
                 chosenPokemon.enemyPokemon.setChosenPokemon(chosenPokemon);
+                displayHealth(chosenPokemon, enemyPokemon);  // Display updated health
             }
         }
     }
