@@ -1,16 +1,15 @@
-//before you read this code,  you should know that the plural for pokemon is pokemon not pokemons
-
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    protected static Pokemon pokemon1 = new Pikachu();
-    protected static Pokemon pokemon2 = new Charizard();
-    protected static Pokemon pokemon3 = new Snorlax();
-    protected static Pokemon pokemon4 = new Bulbasaur();
-    protected static Pokemon pokemon5 = new Gyarados();
-    protected static ArrayList<Pokemon> arrayListOfChosenPokemon = new ArrayList<>(3);
+    private static List<Pokemon> arrayListOfChosenPokemon = new ArrayList<>();
 
+    private static List<Pokemon> enemyPokemon = generateEnemies();
+
+    private static List<Pokemon> generateEnemies() {
+        return List.of(new EnemyPokemon1(), new EnemyPokemon2(), new EnemyPokemon3(), new EnemyPokemon4(), new EnemyPokemon5());
+    }
 
     public static void menu() {
         System.out.println("1 - Pikachu.");
@@ -25,78 +24,21 @@ public class Main {
             System.out.println((i + 1) + " - " + arrayListOfChosenPokemon.get(i).name);
         }
     }
-    public static void round1(Pokemon chosenPokemon) throws InterruptedException {
+
+    public static void round(Pokemon chosenPokemon, Pokemon enemyPokemon) throws InterruptedException {
         realMenu();
-        Scanner sc = new Scanner(System.in);
-        chosenPokemon.enemyPokemon = new EnemyPokemon1();
-        chosenPokemon.enemyPokemon.strengthModifier();
-        chosenPokemon.enemyPokemon.setChosenPokemon(chosenPokemon);
-        displayHealth(chosenPokemon);
-        System.out.println();
+        displayHealth(chosenPokemon, enemyPokemon);
 
-        while (chosenPokemon.getHealthPoints() > 0 && chosenPokemon.enemyPokemon.getHealthPoints() > 0) {
-            chosenPokemon.chooseAttack();
-            if (chosenPokemon.enemyPokemon.getHealthPoints() <= 0) {
-                System.out.println();
-                System.out.println("The enemy pokemon has fallen. VICTORY");
-                round2(chosenPokemon);
-                break;
-            }
-
-            displayHealth(chosenPokemon);
-            chosenPokemon.enemyPokemon.chooseAttack();
-            System.out.println();
-            Thread.sleep(2000);
-            displayHealth(chosenPokemon);
-            while (chosenPokemon.getHealthPoints() <= 0) {
-                int enemyPokemonHealthAfterNewChosenPokemonIsAssigned = chosenPokemon.enemyPokemon.getHealthPoints();
-                System.out.println("Your Pokemon has fallen.");
-                arrayListOfChosenPokemon.remove(chosenPokemon);
-                realMenu();
-                int choice = sc.nextInt();
-                for (int i = 0; i < arrayListOfChosenPokemon.size(); i++) {
-                    if (choice == (i + 1)) {
-                        chosenPokemon = arrayListOfChosenPokemon.get(i);
-                    }
-                }
-                if (chosenPokemon.getHealthPoints() <= 0) {
-                    System.out.println("This pokemon has already fallen, choose another one");
-                } else {
-                    chosenPokemon.enemyPokemon = new EnemyPokemon1();
-                    chosenPokemon.enemyPokemon.setHealthPoints(enemyPokemonHealthAfterNewChosenPokemonIsAssigned);
-                    chosenPokemon.enemyPokemon.setChosenPokemon(chosenPokemon);
-                    chosenPokemon.enemyPokemon.setUltimateUsed(true);
-                    System.out.println("The health of your new pokemon is " + chosenPokemon.getHealthPoints());
-                    System.out.println("The health of the enemy pokemon is " + chosenPokemon.enemyPokemon.getHealthPoints());
-                }
-            }
-        }
-    }
-
-
-    public static void round2(Pokemon chosenPokemon) throws InterruptedException {
-        realMenu();
-        System.out.println("A wild enemy Pokemon has appeared!");
-
-        chosenPokemon.enemyPokemon = new EnemyPokemon2();
-        chosenPokemon.enemyPokemon.strengthModifier();
-        chosenPokemon.enemyPokemon.setChosenPokemon(chosenPokemon);
-
-        displayHealth(chosenPokemon);
-        System.out.println();
-
-        while (chosenPokemon.getHealthPoints() > 0 && chosenPokemon.enemyPokemon.getHealthPoints() > 0) {
+        while (chosenPokemon.getHealthPoints() > 0 && enemyPokemon.getHealthPoints() > 0) {
             chosenPokemon.chooseAttack();
 
-            if (chosenPokemon.enemyPokemon.getHealthPoints() <= 0) {
+            if (enemyPokemon.getHealthPoints() <= 0) {
                 System.out.println("The enemy Pokemon has fainted. VICTORY!");
-                finalRound(chosenPokemon);
-                // it should be round3 but I wrote round4 or round5 to test the methods
                 break;
             }
 
-            displayHealth(chosenPokemon);
-            chosenPokemon.enemyPokemon.chooseAttack();
+            displayHealth(chosenPokemon, enemyPokemon);
+            enemyPokemon.chooseAttack();
             System.out.println();
 
             try {
@@ -105,50 +47,33 @@ public class Main {
                 e.printStackTrace();
             }
 
-            displayHealth(chosenPokemon);
+            displayHealth(chosenPokemon, enemyPokemon);
 
             if (chosenPokemon.getHealthPoints() <= 0) {
-                EnemyPokemon2 enemyPokemon2 = (EnemyPokemon2) chosenPokemon.enemyPokemon;
-                chosenPokemon = handleFaintedPokemon(chosenPokemon);
-                chosenPokemon.enemyPokemon = enemyPokemon2;
+                chosenPokemon = handleFaintedPokemon();
+                chosenPokemon.enemyPokemon = enemyPokemon;
                 chosenPokemon.enemyPokemon.setChosenPokemon(chosenPokemon);
             }
         }
     }
 
-    public static void round3(Pokemon chosenPokemon) throws InterruptedException {
-
-    }
-
     public static void round4(Pokemon chosenPokemon) throws InterruptedException {
-        //IMPORTANT
-        //round4 is very tricky because EnemyPokemon4 is Ditto, Ditto is a pokemon who can reflect any attack
-        //which is why here I made chosenPokemon.enemyPokemon = chosenPokemon;
-        //this way the attack you throw at it will deal damage to your pokemon
-        //and my idea is if you complete the mini game which is in EnemyPokemon4 class,
-        //chosenPokemon.enemyPokemon = new EnemyPokemon4;
-        //therefore you will be able to break through the reflection
-        //and deal damage to Ditto
-        //Good luck
-
-        //this right here is just testing if my idea works
         Scanner sc = new Scanner(System.in);
-        //EnemyPokemon4 enemyPokemon4 = new EnemyPokemon4();
-        //final Pokemon chosenPokemon2 = chosenPokemon;
         chosenPokemon.enemyPokemon = chosenPokemon;
-        //chosenPokemon.enemyPokemon.name = enemyPokemon4.name;
         chosenPokemon.chooseAttack();
-        //chosenPokemon = chosenPokemon2;
         chosenPokemon.enemyPokemon = new EnemyPokemon4();
+
         if (!chosenPokemon.enemyPokemon.chooseAttack()) {
             chosenPokemon.enemyPokemon = chosenPokemon;
         }
+
         chosenPokemon.enemyPokemon.chooseAttack();
         System.out.println(chosenPokemon.getHealthPoints());
         System.out.println(chosenPokemon.enemyPokemon.name + " " + chosenPokemon.enemyPokemon.getHealthPoints());
         System.out.println(chosenPokemon.name + " " + chosenPokemon.getHealthPoints());
-        String choice = sc.next();
+        sc.next();  // You might want to use the input for something else, otherwise, this line can be removed.
     }
+
     public static void finalRound(Pokemon chosenPokemon) throws InterruptedException {
         Pokemon enemyPokemon = new EnemyPokemon5();
         chosenPokemon.enemyPokemon = enemyPokemon;
@@ -157,6 +82,7 @@ public class Main {
         chosenPokemon.enemyPokemon.setChosenPokemon(chosenPokemon);
         chosenPokemon.enemyPokemon.chooseAttack();
     }
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int tries = 0;
@@ -164,29 +90,31 @@ public class Main {
         try {
             System.out.println("Choose 3 pokemon for your team.");
             menu();
+
             while (tries < 3) {
                 Pokemon chosenPokemon;
                 int choice = sc.nextInt();
 
                 switch (choice) {
                     case 1:
-                        chosenPokemon = pokemon1;
+                        chosenPokemon = new Pikachu();
                         break;
                     case 2:
-                        chosenPokemon = pokemon2;
+                        chosenPokemon = new Charizard();
                         break;
                     case 3:
-                        chosenPokemon = pokemon3;
+                        chosenPokemon = new Snorlax();
                         break;
                     case 4:
-                        chosenPokemon = pokemon4;
+                        chosenPokemon = new Bulbasaur();
                         break;
                     case 5:
-                        chosenPokemon = pokemon5;
+                        chosenPokemon = new Gyarados();
                         break;
                     default:
                         throw new IllegalStateException("This choice is not available.");
                 }
+
                 if (!arrayListOfChosenPokemon.contains(chosenPokemon)) {
                     arrayListOfChosenPokemon.add(chosenPokemon);
                     tries++;
@@ -194,66 +122,61 @@ public class Main {
                     System.out.println("You cannot choose the same pokemon twice.");
                 }
             }
+
+            System.out.println("\nThe pokemon that you have chosen are: ");
+            for (Pokemon chosen : arrayListOfChosenPokemon) {
+                chosen.strengthModifier();
+                System.out.print(chosen.name + ", ");
+            }
+            System.out.println();
+
+            for (int roundNumber = 1; roundNumber <= 3; roundNumber++) {
+                System.out.println("Round " + roundNumber + " begins!");
+                int choiceForPokemonToBeginRoundWith;
+                do {
+                    System.out.println("Choose a pokemon to begin the round with:");
+                    for (int i = 0; i < arrayListOfChosenPokemon.size(); i++) {
+                        System.out.println((i + 1) + " - " + arrayListOfChosenPokemon.get(i).name);
+                    }
+
+                    choiceForPokemonToBeginRoundWith = sc.nextInt();
+
+                    try {
+                        Pokemon chosenPokemon = arrayListOfChosenPokemon.get(choiceForPokemonToBeginRoundWith - 1);
+                        round(chosenPokemon, enemyPokemon.get(roundNumber - 1));
+                    } catch (IndexOutOfBoundsException e) {
+                        System.out.println("Enter a valid choice.");
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                } while (choiceForPokemonToBeginRoundWith < 1 || choiceForPokemonToBeginRoundWith > 3);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println();
-        System.out.print("The pokemon that you have chosen are: ");
-        for (Pokemon chosen : arrayListOfChosenPokemon) {
-            chosen.strengthModifier();
-            System.out.print(chosen.name + ", ");
-        }
-        System.out.println();
-        int choiceForPokemonToBeginTheFirstRoundWith;
-        do {
-            System.out.println("Choose a pokemon to begin the tournament with:\n" +
-                    "1 - for " + arrayListOfChosenPokemon.get(0).name + "\n" +
-                    "2 - for " + arrayListOfChosenPokemon.get(1).name + "\n" +
-                    "3 - for " + arrayListOfChosenPokemon.get(2).name);
-            choiceForPokemonToBeginTheFirstRoundWith = sc.nextInt();
-
-            try {
-                switch (choiceForPokemonToBeginTheFirstRoundWith) {
-                    case 1:
-                        round1(arrayListOfChosenPokemon.get(0));
-                        break;
-                    case 2:
-                        round1(arrayListOfChosenPokemon.get(1));
-                        break;
-                    case 3:
-                        round1(arrayListOfChosenPokemon.get(2));
-                        break;
-                    default:
-                        System.out.println("Enter a valid choice.");
-                }
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        } while (choiceForPokemonToBeginTheFirstRoundWith < 1 || choiceForPokemonToBeginTheFirstRoundWith > 3);
     }
 
-    private static Pokemon handleFaintedPokemon(Pokemon chosenPokemon) {
-        //we should put a check on whether not there are pokemons who still haven't fainted
+    private static Pokemon handleFaintedPokemon() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Your Pokemon has fainted.");
         realMenu();
         int choice = scanner.nextInt();
-        chosenPokemon = arrayListOfChosenPokemon.get(choice - 1);
+        Pokemon chosenPokemon = arrayListOfChosenPokemon.get(choice - 1);
 
         if (chosenPokemon.getHealthPoints() <= 0) {
             System.out.println("This Pokemon has already fainted. Choose another one.");
-            return handleFaintedPokemon(chosenPokemon);
+            return handleFaintedPokemon();
         } else {
             return chosenPokemon;
         }
     }
 
-    private static void displayHealth(Pokemon chosenPokemon) {
+    private static void displayHealth(Pokemon chosenPokemon, Pokemon enemyPokemon) {
         if (chosenPokemon.getHealthPoints() > 0) {
             System.out.println("Your Pokemon's health: " + chosenPokemon.getHealthPoints());
         }
-        if (chosenPokemon.enemyPokemon.getHealthPoints() > 0) {
-            System.out.println("Enemy Pokemon's health: " + chosenPokemon.enemyPokemon.getHealthPoints());
+        if (enemyPokemon.getHealthPoints() > 0) {
+            System.out.println("Enemy Pokemon's health: " + enemyPokemon.getHealthPoints());
         }
     }
 }

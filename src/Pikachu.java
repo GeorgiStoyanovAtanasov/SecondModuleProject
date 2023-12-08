@@ -44,8 +44,8 @@ public class Pikachu extends Pokemon {
 
     void attack1() throws InterruptedException {
         lastNonUltimateAttack = 1;
-        System.out.println(this.enemyPokemon.name + " is attacked by Thunder shock.");
-        this.enemyPokemon.setHealthPoints(this.enemyPokemon.getHealthPoints() - 20);
+        System.out.println("The enemy is attacked by Thunder shock.");
+        enemyPokemon.setHealthPoints(enemyPokemon.getHealthPoints() - 20);
         if(enemyPokemon.getHealthPoints() > 0) {
             System.out.println("The health of the enemy pokemon is " + enemyPokemon.getHealthPoints());
             System.out.println("The enemy pokemon is stunned, you can attack again");// Update last non-ultimate attack
@@ -56,7 +56,7 @@ public class Pikachu extends Pokemon {
     void attack2() {
         lastChosenAttack = 2;
         System.out.println("Thunderbolt.");
-        this.enemyPokemon.setHealthPoints(this.enemyPokemon.getHealthPoints() - this.getAttackPoints());
+        enemyPokemon.setHealthPoints(enemyPokemon.getHealthPoints() - this.getAttackPoints());
         lastNonUltimateAttack = 2;
     }
 
@@ -73,7 +73,7 @@ public class Pikachu extends Pokemon {
         System.out.println("chuuuu");
         int limitForWhileLoop = enemyPokemon.getHealthPoints() / 10;
         while (enemyPokemon.getHealthPoints() > limitForWhileLoop) {
-            this.enemyPokemon.setHealthPoints(this.enemyPokemon.getHealthPoints() - 6);
+            this.enemyPokemon.setHealthPoints(enemyPokemon.getHealthPoints() - 6);
             System.out.println("chuuuu");
             System.out.println("The health of the enemy Pokemon is " + enemyPokemon.getHealthPoints());
             Thread.sleep(500);
