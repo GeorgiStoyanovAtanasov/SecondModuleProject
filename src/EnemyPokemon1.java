@@ -8,8 +8,10 @@ public class EnemyPokemon1 extends Pokemon {
         this.appearance = "mammalian creature with brown fur, a bushy tail that has a cream-colored tip, and a furry collar that is also cream-colored.";
         this.type = "Ordinary-type";
         this.size = "Small";
-        this.setHealthPoints(55);
-        this.setAttackPoints(25);
+        //this.setHealthPoints(55);
+        this.setHealthPoints(110);
+        //this.setAttackPoints(25);
+        this.setAttackPoints(55);
         this.setDefensePoints(50);
     }
     public void setUltimateUsed(boolean ultimateUsed){
@@ -23,7 +25,7 @@ public class EnemyPokemon1 extends Pokemon {
         this.setDefensePoints((this.getDefensePoints() - (this.getDefensePoints() / 10)));
     }
     @Override
-    void chooseAttack() throws InterruptedException {
+    boolean chooseAttack() throws InterruptedException {
         Random random = new Random();
         int randomNumber = random.nextInt(3) + 1;
 
@@ -36,6 +38,7 @@ public class EnemyPokemon1 extends Pokemon {
         } else {
             chooseAttack();
         }
+        return false;
     }
     void attack1() {
         lastChosenAttack = 1;
@@ -55,7 +58,7 @@ public class EnemyPokemon1 extends Pokemon {
                 Thread.sleep(3000);
                 loops++;
             }
-            if(chosenPokemon.getDefensePoints()<(chosenPokemon.getAttackPoints())/2 + (chosenPokemon.getHealthPoints())){
+            if(chosenPokemon.getHealthPoints() > this.getAttackPoints()){
                 System.out.println("The system has concluded that " + chosenPokemon.name + " is able to keep on fighting.");
             } else {
                 System.out.println("The system has concluded that " + chosenPokemon.name + " is not able to keep on fighting.");
@@ -66,15 +69,18 @@ public class EnemyPokemon1 extends Pokemon {
     void ultimate(){
         lastChosenAttack = 3;
         System.out.println("Evolution.");
+        final String oldName = this.name;
         this.name = "Umbreon";
         this.appearance = "mammalian creature which resembles a black cat or rabbit.";
         this.type = "Dark-type";
         this.size = "Small";
-        this.setHealthPoints(100 - getHealthPoints());
+        //this.setHealthPoints(80);
+        this.setHealthPoints(160);
         this.setAttackPoints(55);
         this.setDefensePoints(100);
         strengthModifier();
         ultimateUsed = true;
+        System.out.println(oldName + " has evolved into Umbreon.");
         System.out.println();
     }
 }

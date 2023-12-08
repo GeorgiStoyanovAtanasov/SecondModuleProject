@@ -3,6 +3,7 @@ import java.util.Scanner;
 public class Pikachu extends Pokemon {
     private boolean ultimateUsed = false;
     private int lastChosenAttack = 0;
+    private int lastNonUltimateAttack = 0;
 
     Pikachu() {
         super();
@@ -10,7 +11,8 @@ public class Pikachu extends Pokemon {
         this.appearance = "Mouse-like Pokémon";
         this.type = "Electric-type";
         this.size = "Small";
-        this.setHealthPoints(60);
+        //this.setHealthPoints(60);
+        this.setHealthPoints(90);
         this.setAttackPoints(50);
         this.setDefensePoints(40);
     }
@@ -22,7 +24,7 @@ public class Pikachu extends Pokemon {
         this.setDefensePoints((this.getDefensePoints() - (this.getDefensePoints() / 10)));
     }
 
-    void chooseAttack() throws InterruptedException {
+    boolean chooseAttack() throws InterruptedException {
         Scanner sc = new Scanner(System.in);
         System.out.println("Choose attack: 1 - Thunder shock, 2 - Thunderbolt, 3 - Ultimate(can be used by a pokemon only once during the tournament).");
         byte choice = sc.nextByte();
@@ -36,17 +38,17 @@ public class Pikachu extends Pokemon {
         } else {
             System.out.println("You are trying to use an an illegal move.");
             chooseAttack();
-            //System.exit(0);
         }
+        return false;
     }
 
-
     void attack1() throws InterruptedException {
+        lastNonUltimateAttack = 1;
         System.out.println(this.enemyPokemon.name + " is attacked by Thunder shock.");
         this.enemyPokemon.setHealthPoints(this.enemyPokemon.getHealthPoints() - 20);
         if(enemyPokemon.getHealthPoints() > 0) {
             System.out.println("The health of the enemy pokemon is " + enemyPokemon.getHealthPoints());
-            System.out.println("The enemy pokemon is stunned, you can attack again");
+            System.out.println("The enemy pokemon is stunned, you can attack again");// Update last non-ultimate attack
             chooseAttack2();
         }
     }
@@ -55,15 +57,24 @@ public class Pikachu extends Pokemon {
         lastChosenAttack = 2;
         System.out.println("Thunderbolt.");
         this.enemyPokemon.setHealthPoints(this.enemyPokemon.getHealthPoints() - this.getAttackPoints());
+        lastNonUltimateAttack = 2;
     }
 
     void ultimate() throws InterruptedException {
         lastChosenAttack = 3;
         System.out.println("Ultimate attack!");
+        Thread.sleep(1000);
         System.out.println("Infinity lightning");
+        Thread.sleep(1000);
+        System.out.println("Pika");
+        Thread.sleep(1000);
+        System.out.println("Pika");
+        Thread.sleep(1000);
+        System.out.println("chuuuu");
         int limitForWhileLoop = enemyPokemon.getHealthPoints() / 10;
         while (enemyPokemon.getHealthPoints() > limitForWhileLoop) {
-            this.enemyPokemon.setHealthPoints(this.enemyPokemon.getHealthPoints() - 1);
+            this.enemyPokemon.setHealthPoints(this.enemyPokemon.getHealthPoints() - 6);
+            System.out.println("chuuuu");
             System.out.println("The health of the enemy Pokemon is " + enemyPokemon.getHealthPoints());
             Thread.sleep(500);
         }
@@ -75,7 +86,8 @@ public class Pikachu extends Pokemon {
         Scanner sc = new Scanner(System.in);
         System.out.println("Choose attack: 2 - Thunderbolt, 3 - Ultimate(can be used by a pokemon only once during the tournament).");
         byte choice = sc.nextByte();
-        if (choice == 2 && lastChosenAttack != 2) {
+
+        if ((choice == 2 && lastChosenAttack != 2) || (choice == 2 && ultimateUsed) || (choice == 1 && lastNonUltimateAttack != 1)) {
             lastChosenAttack = 1;
             attack2();
         } else if (choice == 3 && !ultimateUsed) {
@@ -84,7 +96,6 @@ public class Pikachu extends Pokemon {
         } else {
             System.out.println("You are trying to use an an illegal move.");
             chooseAttack2();
-            //System.exit(0);
         }
     }
 }

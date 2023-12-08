@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public abstract class Pokemon extends Battle{
+public abstract class Pokemon{
     protected String name;
     protected String appearance;
     protected String type;
@@ -45,6 +45,6 @@ public abstract class Pokemon extends Battle{
     }
 
     abstract void strengthModifier();
-    abstract void chooseAttack() throws InterruptedException;
+    abstract boolean chooseAttack() throws InterruptedException;
     //abstract void chooseAttackAfterUltimate();
 }

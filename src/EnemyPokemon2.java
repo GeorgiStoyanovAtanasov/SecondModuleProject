@@ -1,5 +1,4 @@
 import java.util.Random;
-import java.util.Scanner;
 
 public class EnemyPokemon2 extends Pokemon {
     private boolean ultimateUsed = false;
@@ -11,7 +10,8 @@ public class EnemyPokemon2 extends Pokemon {
         this.appearance = "Gum-like Pokémon";
         this.type = "Gum-type";
         this.size = "Small";
-        this.setHealthPoints(55);
+        //this.setHealthPoints(55);
+        this.setHealthPoints(110);
         this.setAttackPoints(40);
         this.setDefensePoints(35);
     }
@@ -23,7 +23,7 @@ public class EnemyPokemon2 extends Pokemon {
         this.setDefensePoints((this.getDefensePoints() - (this.getDefensePoints() / 10)));
     }
 
-    void chooseAttack() throws InterruptedException {
+    boolean chooseAttack() throws InterruptedException {
         Random random = new Random();
         int randomNumber = random.nextInt(3) + 1;
 
@@ -36,6 +36,7 @@ public class EnemyPokemon2 extends Pokemon {
         } else {
             chooseAttack();
         }
+        return false;
     }
 
 
@@ -67,16 +68,21 @@ public class EnemyPokemon2 extends Pokemon {
         System.out.println();
     }
     void chooseAttack2() throws InterruptedException {
-        Random random = new Random();
-        int count = 0;
-        while(count < 2) {
-            int randomNumber = random.nextInt(2) + 2;
-            if (randomNumber == 2 && lastChosenAttack != 2) {
+        chooseAttack2Recursive(0);
+    }
+
+    private void chooseAttack2Recursive(int count) throws InterruptedException {
+        if (count < 2) {
+            //TODO
+            Random random = new Random();
+            int randomNumber = random.nextInt(2) + 1;
+
+            if (randomNumber == 1 && lastChosenAttack != 1) {
+                attack1();
+            } else  {
                 attack2();
-            } else if (randomNumber == 3 && !ultimateUsed) {
-                ultimate();
             }
-            count++;
+                chooseAttack2Recursive(count + 1);
         }
     }
 }

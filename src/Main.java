@@ -25,7 +25,6 @@ public class Main {
             System.out.println((i + 1) + " - " + arrayListOfChosenPokemon.get(i).name);
         }
     }
-
     public static void round1(Pokemon chosenPokemon) throws InterruptedException {
         realMenu();
         Scanner sc = new Scanner(System.in);
@@ -66,7 +65,6 @@ public class Main {
                     chosenPokemon.enemyPokemon = new EnemyPokemon1();
                     chosenPokemon.enemyPokemon.setHealthPoints(enemyPokemonHealthAfterNewChosenPokemonIsAssigned);
                     chosenPokemon.enemyPokemon.setChosenPokemon(chosenPokemon);
-                    chosenPokemon.enemyPokemon.strengthModifier();
                     chosenPokemon.enemyPokemon.setUltimateUsed(true);
                     System.out.println("The health of your new pokemon is " + chosenPokemon.getHealthPoints());
                     System.out.println("The health of the enemy pokemon is " + chosenPokemon.enemyPokemon.getHealthPoints());
@@ -92,7 +90,8 @@ public class Main {
 
             if (chosenPokemon.enemyPokemon.getHealthPoints() <= 0) {
                 System.out.println("The enemy Pokemon has fainted. VICTORY!");
-                round3(chosenPokemon);
+                finalRound(chosenPokemon);
+                // it should be round3 but I wrote round4 or round5 to test the methods
                 break;
             }
 
@@ -121,6 +120,43 @@ public class Main {
 
     }
 
+    public static void round4(Pokemon chosenPokemon) throws InterruptedException {
+        //IMPORTANT
+        //round4 is very tricky because EnemyPokemon4 is Ditto, Ditto is a pokemon who can reflect any attack
+        //which is why here I made chosenPokemon.enemyPokemon = chosenPokemon;
+        //this way the attack you throw at it will deal damage to your pokemon
+        //and my idea is if you complete the mini game which is in EnemyPokemon4 class,
+        //chosenPokemon.enemyPokemon = new EnemyPokemon4;
+        //therefore you will be able to break through the reflection
+        //and deal damage to Ditto
+        //Good luck
+
+        //this right here is just testing if my idea works
+        Scanner sc = new Scanner(System.in);
+        //EnemyPokemon4 enemyPokemon4 = new EnemyPokemon4();
+        //final Pokemon chosenPokemon2 = chosenPokemon;
+        chosenPokemon.enemyPokemon = chosenPokemon;
+        //chosenPokemon.enemyPokemon.name = enemyPokemon4.name;
+        chosenPokemon.chooseAttack();
+        //chosenPokemon = chosenPokemon2;
+        chosenPokemon.enemyPokemon = new EnemyPokemon4();
+        if (!chosenPokemon.enemyPokemon.chooseAttack()) {
+            chosenPokemon.enemyPokemon = chosenPokemon;
+        }
+        chosenPokemon.enemyPokemon.chooseAttack();
+        System.out.println(chosenPokemon.getHealthPoints());
+        System.out.println(chosenPokemon.enemyPokemon.name + " " + chosenPokemon.enemyPokemon.getHealthPoints());
+        System.out.println(chosenPokemon.name + " " + chosenPokemon.getHealthPoints());
+        String choice = sc.next();
+    }
+    public static void finalRound(Pokemon chosenPokemon) throws InterruptedException {
+        Pokemon enemyPokemon = new EnemyPokemon5();
+        chosenPokemon.enemyPokemon = enemyPokemon;
+        chosenPokemon.strengthModifier();
+        chosenPokemon.enemyPokemon.strengthModifier();
+        chosenPokemon.enemyPokemon.setChosenPokemon(chosenPokemon);
+        chosenPokemon.enemyPokemon.chooseAttack();
+    }
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int tries = 0;
@@ -197,6 +233,7 @@ public class Main {
     }
 
     private static Pokemon handleFaintedPokemon(Pokemon chosenPokemon) {
+        //we should put a check on whether not there are pokemons who still haven't fainted
         Scanner scanner = new Scanner(System.in);
         System.out.println("Your Pokemon has fainted.");
         realMenu();

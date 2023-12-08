@@ -12,7 +12,8 @@ public class EnemyPokemon3 extends Pokemon {
         this.appearance = "Gum-like Pokémon";
         this.type = "Psychic-type";
         this.size = "Normal";
-        this.setHealthPoints(55);
+        //this.setHealthPoints(55);
+        this.setHealthPoints(110);
         this.setAttackPoints(50);
         this.setDefensePoints(45);
         this.ultimateHealth = 2*getHealthPoints();
@@ -22,7 +23,7 @@ public class EnemyPokemon3 extends Pokemon {
 
     }
 
-    void chooseAttack() throws InterruptedException {
+    boolean chooseAttack() throws InterruptedException {
         Random random = new Random();
         int randomNumber = random.nextInt(2) + 1;
 
@@ -33,6 +34,7 @@ public class EnemyPokemon3 extends Pokemon {
         } else {
             chooseAttack();
         }
+        return false;
     }
 
 
