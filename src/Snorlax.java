@@ -10,7 +10,7 @@ public class Snorlax extends Pokemon {
         this.type = "Ordinary";
         this.size = "Large";
         //this.setHealthPoints(160);
-        this.setHealthPoints(220);
+        this.setHealthPoints(150);
         this.setAttackPoints(110);
         this.setDefensePoints(160);
     }
