@@ -27,9 +27,9 @@ public class EnemyPokemon3 extends Pokemon {
         Random random = new Random();
         int randomNumber = random.nextInt(2) + 1;
 
-        if (randomNumber == 1 && lastChosenAttack != 1) {
+        if (randomNumber == 1) {
             attack1();
-        } else if (randomNumber == 2 && lastChosenAttack != 2) {
+        } else if (randomNumber == 2 && !ultimateUsed) {
             ultimate();
         } else {
             chooseAttack();
@@ -51,7 +51,7 @@ public class EnemyPokemon3 extends Pokemon {
             if (chosenPokemon.getHealthPoints() > 0) {
                 Thread.sleep(1000);
                 System.out.println("You guessed wrong," + chosenPokemon.name + " is cut through by Psycho Cut.");
-                this.chosenPokemon.setHealthPoints(chosenPokemon.getDefensePoints() - getAttackPoints());
+                this.chosenPokemon.setHealthPoints(chosenPokemon.getHealthPoints() + (chosenPokemon.getDefensePoints()/20) - getAttackPoints());
             }
         } else {
             Thread.sleep(1000);
