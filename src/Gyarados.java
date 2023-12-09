@@ -12,7 +12,7 @@ public class Gyarados extends Pokemon {
         this.size = "Large";
         //this.setHealthPoints(95);
         //this.setAttackPoints(125);
-        this.setHealthPoints(190);
+        this.setHealthPoints(150);
         this.setAttackPoints(55);
         this.setDefensePoints(79);
     }

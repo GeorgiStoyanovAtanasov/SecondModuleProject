@@ -1,14 +1,36 @@
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     private static List<Pokemon> arrayListOfChosenPokemon = new ArrayList<>();
+    private static final Pokemon PokemonThePlayerCanChooseFrom1 = new Pikachu();
+    private static final Pokemon PokemonThePlayerCanChooseFrom2 = new Charizard();
+    private static final Pokemon PokemonThePlayerCanChooseFrom3 = new Snorlax();
+    private static final Pokemon PokemonThePlayerCanChooseFrom4 = new Bulbasaur();
+    private static final Pokemon PokemonThePlayerCanChooseFrom5 = new Gyarados();
 
     private static List<Pokemon> enemyPokemon = generateEnemies();
 
     private static List<Pokemon> generateEnemies() {
         return List.of(new EnemyPokemon1(), new EnemyPokemon2(), new EnemyPokemon3(), new EnemyPokemon4(), new EnemyPokemon5());
+    }
+    public static void playAudio() {
+        try {
+            System.out.println("The game will begin after the hymn of pokemon.");
+            String filePath = "src/pokemonHymn.wav";
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(filePath));
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+            Thread.sleep(205000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void menu() {
@@ -23,6 +45,7 @@ public class Main {
         for (int i = 0; i < arrayListOfChosenPokemon.size(); i++) {
             System.out.println((i + 1) + " - " + arrayListOfChosenPokemon.get(i).name);
         }
+        System.out.println();
     }
 
     public static void round(Pokemon chosenPokemon, Pokemon enemyPokemon) throws InterruptedException {
@@ -91,7 +114,7 @@ public class Main {
         System.out.println(chosenPokemon.getHealthPoints());
         System.out.println(chosenPokemon.enemyPokemon.name + " " + chosenPokemon.enemyPokemon.getHealthPoints());
         System.out.println(chosenPokemon.name + " " + chosenPokemon.getHealthPoints());
-        sc.next();  // You might want to use the input for something else, otherwise, this line can be removed.
+        sc.next();
     }
 
     public static void finalRound(Pokemon chosenPokemon) throws InterruptedException {
@@ -104,32 +127,32 @@ public class Main {
     }
 
     public static void main(String[] args) {
+        playAudio();
+        //this method turns on the pokemon song
         Scanner sc = new Scanner(System.in);
         int tries = 0;
-
         try {
             System.out.println("Choose 3 pokemon for your team.");
             menu();
-
             while (tries < 3) {
                 Pokemon chosenPokemon;
                 int choice = sc.nextInt();
 
                 switch (choice) {
                     case 1:
-                        chosenPokemon = new Pikachu();
+                        chosenPokemon = PokemonThePlayerCanChooseFrom1;
                         break;
                     case 2:
-                        chosenPokemon = new Charizard();
+                        chosenPokemon = PokemonThePlayerCanChooseFrom2;
                         break;
                     case 3:
-                        chosenPokemon = new Snorlax();
+                        chosenPokemon = PokemonThePlayerCanChooseFrom3;
                         break;
                     case 4:
-                        chosenPokemon = new Bulbasaur();
+                        chosenPokemon = PokemonThePlayerCanChooseFrom4;
                         break;
                     case 5:
-                        chosenPokemon = new Gyarados();
+                        chosenPokemon = PokemonThePlayerCanChooseFrom5;
                         break;
                     default:
                         throw new IllegalStateException("This choice is not available.");
