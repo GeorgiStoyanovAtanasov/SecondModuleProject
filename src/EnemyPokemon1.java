@@ -55,7 +55,7 @@ public class EnemyPokemon1 extends Pokemon {
             int loops = 0;
             while(loops < 10) {
                 System.out.println("Loading...");
-                Thread.sleep(3000);
+                Thread.sleep(1500);
                 loops++;
             }
             if(chosenPokemon.getHealthPoints() > this.getAttackPoints()){

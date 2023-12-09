@@ -48,8 +48,10 @@ public class Pikachu extends Pokemon {
         enemyPokemon.setHealthPoints(enemyPokemon.getHealthPoints() - 20);
         if(enemyPokemon.getHealthPoints() > 0) {
             System.out.println("The health of the enemy pokemon is " + enemyPokemon.getHealthPoints());
-            System.out.println("The enemy pokemon is stunned, you can attack again");// Update last non-ultimate attack
+            System.out.println("The enemy pokemon is stunned, you can attack again");
+            this.setAttackPoints(getAttackPoints() - (this.getHealthPoints()/5));
             chooseAttack2();
+            this.setAttackPoints(getAttackPoints() + (this.getHealthPoints()/5));
         }
     }
 

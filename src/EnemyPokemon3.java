@@ -27,7 +27,7 @@ public class EnemyPokemon3 extends Pokemon {
         Random random = new Random();
         int randomNumber = random.nextInt(2) + 1;
 
-        if (randomNumber == 1 && lastChosenAttack != 1) {
+        if (randomNumber == 1) {
             attack1();
         } else if (randomNumber == 2 && !ultimateUsed) {
             ultimate();

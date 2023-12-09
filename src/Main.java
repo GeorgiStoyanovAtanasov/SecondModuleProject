@@ -49,10 +49,7 @@ public class Main {
                         chosenPokemon.enemyPokemon = new EnemyPokemon3();
                         break;
                     case 4:
-                        chosenPokemon.enemyPokemon = new EnemyPokemon4();
-                        break;
-                    case 5:
-                        chosenPokemon.enemyPokemon = new EnemyPokemon5();
+                        //round4(chosenPokemon);
                         break;
                 }
                 continue;
@@ -73,9 +70,9 @@ public class Main {
 
             if (chosenPokemon.getHealthPoints() <= 0) {
                 chosenPokemon = handleFaintedPokemon();
-                chosenPokemon.enemyPokemon = enemyPokemon;  // Update the chosenPokemon's enemyPokemon
+                chosenPokemon.enemyPokemon = enemyPokemon;
                 chosenPokemon.enemyPokemon.setChosenPokemon(chosenPokemon);
-                displayHealth(chosenPokemon, enemyPokemon);  // Display updated health
+                displayHealth(chosenPokemon, enemyPokemon);
             }
         }
     }
