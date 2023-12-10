@@ -21,7 +21,7 @@ public class Main {
     }
     public static void playAudio() {
         try {
-            System.out.println("The game will begin after the hymn of pokemon.");
+            System.out.println("The battles will begin after the hymn of pokemon.");
             String filePath = "src/pokemonHymn.wav";
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(filePath));
             Clip clip = AudioSystem.getClip();
@@ -34,15 +34,60 @@ public class Main {
     }
 
     public static void menu() {
-        System.out.println("1 - Pikachu.");
-        System.out.println("2 - Charizard.");
-        System.out.println("3 - Snorlax.");
-        System.out.println("4 - Bulbasaur.");
-        System.out.println("5 - Gyarados.");
+        try {
+            System.out.println("Welcome Player to the epic Pokémon League! \uD83C\uDF1F\n");
+            Thread.sleep(2000);
+
+            System.out.println("Get ready for an electrifying journey across 5 rounds of intense battles, \n" +
+                    "where only the strongest will emerge victorious! \nYour skills as a Pokémon Trainer will be put to the ultimate test, and the thrill of victory awaits!\n");
+            Thread.sleep(10000);
+
+            System.out.println("\uD83C\uDFC6 Prize: The stakes are high, as the ultimate reward for your triumph\n" +
+                    "will be a rare and powerful Pokémon that you can proudly add to your collection.\n");
+            Thread.sleep(7000);
+
+            System.out.println("\uD83D\uDD25 Team Selection: Choose wisely as you assemble your dream team from a pool of 5 incredible Pokémon. \n" +
+                    "Each Pokémon comes with unique abilities and jaw-dropping ultimate moves or combos. \n" +
+                    "Make strategic decisions to outsmart your opponents and claim victory!\n");
+            Thread.sleep(13000);
+
+            System.out.println("Now, let's meet your potential allies:\n");
+            Thread.sleep(5000);
+
+            System.out.println("Pikachu" +
+                    "\nAbilities: Thunder shock, Thunderbolt\n" +
+                    "Ultimate: Infinity lightning\n");
+            Thread.sleep(5000);
+
+            System.out.println("Charizard" +
+                    "\nAbilities: Dragon's Breath, Inferno Blitz\n" +
+                    "Ultimate: Breaking out\n");
+            Thread.sleep(5000);
+
+            System.out.println("Snorlax" +
+                    "\nAbilities: Smash, Melee\n" +
+                    "Secret Combo: ?\n");
+            Thread.sleep(5000);
+
+            System.out.println("Bulbasaur" +
+                    "\nAbilities: Leech Seed, Double-Edge\n" +
+                    "Ultimate: Solar Beam\n");
+            Thread.sleep(5000);
+
+            System.out.println("Gyarados" +
+                    "\nAbilities: Rain Dance, Outrage\n" +
+                    "Ultimate: Whirlpool\n");
+            Thread.sleep(5000);
+
+            System.out.println("May the best Trainer rise to the challenge, showcase their Pokémon mastery, and claim the title of Champion! \n" +
+                    "May your journey be filled with excitement, strategy, and the thrill of becoming a Pokémon Master! Good luck! \uD83C\uDF08\uD83D\uDD25⚡\uFE0F\uD83C\uDF3F\uD83D\uDCA7\n");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void realMenu() {
-        for (int i = 0; i < arrayListOfChosenPokemon.size(); i++) {
+        for(int i = 0; i < arrayListOfChosenPokemon.size(); i++) {
             System.out.println((i + 1) + " - " + arrayListOfChosenPokemon.get(i).name);
         }
         System.out.println();
@@ -127,12 +172,12 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        playAudio();
+        //playAudio();
         //this method turns on the pokemon song
         Scanner sc = new Scanner(System.in);
         int tries = 0;
         try {
-            System.out.println("Choose 3 pokemon for your team.");
+            //System.out.println("Choose 3 pokemon for your team.");
             menu();
             while (tries < 3) {
                 Pokemon chosenPokemon;
@@ -172,7 +217,10 @@ public class Main {
                 System.out.print(chosen.name + ", ");
             }
             System.out.println();
-
+            System.out.println("Congratulations on assembling your team.");
+            System.out.println("You have a few minutes to prepare for the battle while the hymn of pokemon is playing, \n" +
+                    "do not waste them.");
+            playAudio();
             for (int roundNumber = 1; roundNumber <= 3; roundNumber++) {
                 System.out.println("Round " + roundNumber + " begins!");
                 int choiceForPokemonToBeginRoundWith;
