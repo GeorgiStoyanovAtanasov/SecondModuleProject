@@ -303,7 +303,7 @@ public class Main {
             System.out.println("You have a few minutes to prepare for the battle while the hymn of pokemon is playing, \n" +
                     "do not waste them.");
             //HHHHHHHHHHHHHHHHHHHHHHHHHH
-            //playAudio();
+            playAudio();
             //finalRound();
             outerLoop:
             for (int roundNumber = 1; roundNumber <= 3; roundNumber++) {
