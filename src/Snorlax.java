@@ -11,7 +11,7 @@ public class Snorlax extends Pokemon {
         this.size = "Large";
         //this.setHealthPoints(160);
         this.setHealthPoints(150);
-        this.setAttackPoints(110);
+        this.setAttackPoints(90);
         this.setDefensePoints(160);
     }
 
@@ -50,7 +50,11 @@ public class Snorlax extends Pokemon {
         System.out.println(enemyPokemon.name + " is hit by Smash.");
         System.out.println(enemyPokemon.name + " is sent flying.");
         if (enemyPokemon.getHealthPoints()>0) {
-            enemyPokemon.setHealthPoints(enemyPokemon.getHealthPoints() - (getAttackPoints() / 2) + enemyPokemon.getDefensePoints());
+            if(!(enemyPokemon instanceof Snorlax)) {
+                enemyPokemon.setHealthPoints(enemyPokemon.getHealthPoints() - (getAttackPoints() / 2) + enemyPokemon.getDefensePoints());
+            } else {
+                enemyPokemon.setHealthPoints(enemyPokemon.getHealthPoints() - (getAttackPoints() / 3));
+            }
             if (enemyPokemon.getHealthPoints() > 0) {
                 Thread.sleep(7000);
                 System.out.println(enemyPokemon.name + " has hit the ground.");

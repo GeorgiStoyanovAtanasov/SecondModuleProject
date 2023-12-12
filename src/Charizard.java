@@ -23,7 +23,7 @@ public class Charizard extends Pokemon{
     boolean chooseAttack() throws InterruptedException {
         Scanner sc = new Scanner(System.in);
         System.out.println("Choose attack: 1 - Dragon's Breath, 2 - Inferno Blitz, 3 - Ultimate(can be used by a pokemon only once during the tournament).");
-        byte choice = sc.nextByte();
+        int choice = sc.nextInt();
 
         if (choice == 1 && lastChosenAttack != 1) {
             attack1();
