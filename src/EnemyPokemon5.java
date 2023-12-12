@@ -2,6 +2,10 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class EnemyPokemon5 extends Pokemon {
     EnemyPokemon5() {
@@ -30,17 +34,32 @@ public class EnemyPokemon5 extends Pokemon {
     public void attack1() throws InterruptedException {
         System.out.println("A wild Pokemon is attacking!");
         Set<String> attackDirections = pokemonAttack();
-        Scanner scanner = new Scanner(System.in);
-        Thread.sleep(1000);
-        System.out.println("Choose a direction to dodge to(up, down, left, right),you have 3 seconds to dodge:");
-        Thread.sleep(3000);
-        String userDirection = scanner.nextLine().trim();
-        if (isSafeDirection(userDirection, attackDirections)) {
-            System.out.println("You dodged the attack! You're safe!");
-        } else {
-            System.out.println("Oh no! You got hit by the shuriken! The battle is not going well...");
+
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        Future<String> userInputFuture = executorService.submit(() -> {
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Choose a direction to dodge to (up, down, left, right), you have 3 seconds to dodge:");
+            String userDirection = scanner.nextLine().trim();
+            return userDirection;
+        });
+
+        try {
+            Thread.sleep(3000);
+
+            if (userInputFuture.isDone()) {
+                String userDirection = userInputFuture.get();
+                if (isSafeDirection(userDirection, attackDirections)) {
+                    System.out.println("You dodged the attack! You're safe!");
+                } else {
+                    System.out.println("Oh no! You got hit by the shuriken! The battle is not going well...");
+                }
+            } else {
+                System.out.println("Time's up! You didn't enter anything.");
+                userInputFuture.cancel(true);
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
         }
-        scanner.close();
     }
 
     public Set<String> pokemonAttack() throws InterruptedException {

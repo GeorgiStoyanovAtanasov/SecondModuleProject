@@ -16,9 +16,16 @@ public class Main {
 
     private static List<Pokemon> enemyPokemon = generateEnemies();
 
+    private static void strengthModifyEnemyPokemon() {
+        for (int i = 0; i < enemyPokemon.size(); i++) {
+            enemyPokemon.get(i).strengthModifier();
+        }
+    }
+
     private static List<Pokemon> generateEnemies() {
         return List.of(new EnemyPokemon1(), new EnemyPokemon2(), new EnemyPokemon3(), new EnemyPokemon4(), new EnemyPokemon5());
     }
+
     public static void playAudio() {
         try {
             System.out.println("The battles will begin after the hymn of pokemon.");
@@ -87,7 +94,7 @@ public class Main {
     }
 
     public static void realMenu() {
-        for(int i = 0; i < arrayListOfChosenPokemon.size(); i++) {
+        for (int i = 0; i < arrayListOfChosenPokemon.size(); i++) {
             System.out.println((i + 1) + " - " + arrayListOfChosenPokemon.get(i).name);
         }
         System.out.println();
@@ -116,9 +123,6 @@ public class Main {
                     case 3:
                         chosenPokemon.enemyPokemon = new EnemyPokemon3();
                         break;
-                    case 4:
-                        //round4(chosenPokemon);
-                        break;
                 }
                 continue;
             }
@@ -145,39 +149,117 @@ public class Main {
         }
     }
 
-    public static void round4(Pokemon chosenPokemon) throws InterruptedException {
+    public static void round4() throws InterruptedException {
+        Pokemon chosenPokemon;
         Scanner sc = new Scanner(System.in);
+        System.out.println("Round 4 begins!");
+        int choiceForPokemonToBeginRoundWith;
+        do {
+            System.out.println("Choose a pokemon to begin the round with:");
+            for (int i = 0; i < arrayListOfChosenPokemon.size(); i++) {
+                System.out.println((i + 1) + " - " + arrayListOfChosenPokemon.get(i).name);
+            }
+
+            choiceForPokemonToBeginRoundWith = sc.nextInt();
+            chosenPokemon = arrayListOfChosenPokemon.get(choiceForPokemonToBeginRoundWith - 1);
+            if (chosenPokemon.getHealthPoints() < 0) {
+                while (chosenPokemon.getHealthPoints() < 0) {
+                    System.out.println("Enter a valid choice");
+                    choiceForPokemonToBeginRoundWith = sc.nextInt();
+                    chosenPokemon = arrayListOfChosenPokemon.get(choiceForPokemonToBeginRoundWith - 1);
+                }
+            }
+        } while (arrayListOfChosenPokemon.get(choiceForPokemonToBeginRoundWith - 1).getHealthPoints() < 0);
+        boolean isTheResultOfMiniGameGood = true;
         chosenPokemon.enemyPokemon = chosenPokemon;
         chosenPokemon.chooseAttack();
-        chosenPokemon.enemyPokemon = new EnemyPokemon4();
-
+        chosenPokemon.enemyPokemon = enemyPokemon.get(3);
         if (!chosenPokemon.enemyPokemon.chooseAttack()) {
+            isTheResultOfMiniGameGood = false;
             chosenPokemon.enemyPokemon = chosenPokemon;
+            chosenPokemon.enemyPokemon.setChosenPokemon(chosenPokemon);
         }
+        while (chosenPokemon.getHealthPoints() > 0 && chosenPokemon.enemyPokemon.getHealthPoints() > 0) {
+            chosenPokemon.chooseAttack();
 
-        chosenPokemon.enemyPokemon.chooseAttack();
-        System.out.println(chosenPokemon.getHealthPoints());
-        System.out.println(chosenPokemon.enemyPokemon.name + " " + chosenPokemon.enemyPokemon.getHealthPoints());
-        System.out.println(chosenPokemon.name + " " + chosenPokemon.getHealthPoints());
-        sc.next();
+            if (chosenPokemon.enemyPokemon.getHealthPoints() <= 0 && isTheResultOfMiniGameGood) {
+                System.out.println("The enemy Pokemon has fainted. VICTORY!");
+                finalRound();
+                break;
+            }
+            if (chosenPokemon != chosenPokemon.enemyPokemon) {
+                displayHealth(chosenPokemon, chosenPokemon.enemyPokemon);
+                chosenPokemon.enemyPokemon.chooseAttack();
+            } else if (chosenPokemon == chosenPokemon.enemyPokemon && chosenPokemon.getHealthPoints() > 0) {
+                System.out.println("Your Pokemon's health: " + chosenPokemon.getHealthPoints());
+            }
+            System.out.println();
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if (chosenPokemon.getHealthPoints() <= 0 && !isTheResultOfMiniGameGood) {
+                chosenPokemon = handleFaintedPokemon();
+                chosenPokemon.enemyPokemon = chosenPokemon;
+                chosenPokemon.enemyPokemon.setChosenPokemon(chosenPokemon);
+            }
+        }
     }
 
-    public static void finalRound(Pokemon chosenPokemon) throws InterruptedException {
-        Pokemon enemyPokemon = new EnemyPokemon5();
-        chosenPokemon.enemyPokemon = enemyPokemon;
-        chosenPokemon.strengthModifier();
-        chosenPokemon.enemyPokemon.strengthModifier();
-        chosenPokemon.enemyPokemon.setChosenPokemon(chosenPokemon);
-        chosenPokemon.enemyPokemon.chooseAttack();
+    public static void finalRound() throws InterruptedException {
+        Pokemon chosenPokemon;
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Round 5 begins!");
+        int choiceForPokemonToBeginRoundWith;
+        do {
+            System.out.println("Choose a pokemon to begin the round with:");
+            for (int i = 0; i < arrayListOfChosenPokemon.size(); i++) {
+                System.out.println((i + 1) + " - " + arrayListOfChosenPokemon.get(i).name);
+            }
+            choiceForPokemonToBeginRoundWith = sc.nextInt();
+            chosenPokemon = arrayListOfChosenPokemon.get(choiceForPokemonToBeginRoundWith - 1);
+            if (chosenPokemon.getHealthPoints() < 0) {
+                while (chosenPokemon.getHealthPoints() < 0) {
+                    System.out.println("Enter a valid choice");
+                    choiceForPokemonToBeginRoundWith = sc.nextInt();
+                    chosenPokemon = arrayListOfChosenPokemon.get(choiceForPokemonToBeginRoundWith - 1);
+                }
+            }
+        } while (arrayListOfChosenPokemon.get(choiceForPokemonToBeginRoundWith -1).getHealthPoints() < 0);
+        chosenPokemon.enemyPokemon = enemyPokemon.get(4);
+        while (chosenPokemon.getHealthPoints() > 0 && chosenPokemon.enemyPokemon.getHealthPoints() > 0) {
+            chosenPokemon.chooseAttack();
+            if (chosenPokemon.enemyPokemon.getHealthPoints() <= 0) {
+                System.out.println("The enemy Pokemon has fainted. VICTORY!");
+                //Here we will put the method for reward
+                //The method for reward is currently in development
+                break;
+            }
+                displayHealth(chosenPokemon, chosenPokemon.enemyPokemon);
+                chosenPokemon.enemyPokemon.chooseAttack();
+            System.out.println();
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if (chosenPokemon.getHealthPoints() <= 0) {
+                chosenPokemon = handleFaintedPokemon();
+                chosenPokemon.enemyPokemon = chosenPokemon;
+                chosenPokemon.enemyPokemon.setChosenPokemon(chosenPokemon);
+            }
+        }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
+        strengthModifyEnemyPokemon();
         //playAudio();
         //this method turns on the pokemon song
         Scanner sc = new Scanner(System.in);
         int tries = 0;
         try {
-            //System.out.println("Choose 3 pokemon for your team.");
+            System.out.println("Choose 3 pokemon for your team.");
             menu();
             while (tries < 3) {
                 Pokemon chosenPokemon;
@@ -220,38 +302,70 @@ public class Main {
             System.out.println("Congratulations on assembling your team.");
             System.out.println("You have a few minutes to prepare for the battle while the hymn of pokemon is playing, \n" +
                     "do not waste them.");
-            playAudio();
+            //HHHHHHHHHHHHHHHHHHHHHHHHHH
+            //playAudio();
+            //finalRound();
+            outerLoop:
             for (int roundNumber = 1; roundNumber <= 3; roundNumber++) {
                 System.out.println("Round " + roundNumber + " begins!");
                 int choiceForPokemonToBeginRoundWith;
-                do {
-                    System.out.println("Choose a pokemon to begin the round with:");
-                    for (int i = 0; i < arrayListOfChosenPokemon.size(); i++) {
-                        System.out.println((i + 1) + " - " + arrayListOfChosenPokemon.get(i).name);
-                    }
 
-                    choiceForPokemonToBeginRoundWith = sc.nextInt();
-
-                    try {
-                        Pokemon chosenPokemon = arrayListOfChosenPokemon.get(choiceForPokemonToBeginRoundWith - 1);
-                        round(chosenPokemon, enemyPokemon.get(roundNumber - 1));
-                    } catch (IndexOutOfBoundsException e) {
+                //do {
+                System.out.println("Choose a pokemon to begin the round with:");
+                for (int i = 0; i < arrayListOfChosenPokemon.size(); i++) {
+                    System.out.println((i + 1) + " - " + arrayListOfChosenPokemon.get(i).name);
+                }
+                choiceForPokemonToBeginRoundWith = sc.nextInt();
+                if(choiceForPokemonToBeginRoundWith < 1 || choiceForPokemonToBeginRoundWith > arrayListOfChosenPokemon.size()){
+                    while(choiceForPokemonToBeginRoundWith < 1 || choiceForPokemonToBeginRoundWith > arrayListOfChosenPokemon.size()) {
                         System.out.println("Enter a valid choice.");
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
+                        choiceForPokemonToBeginRoundWith = sc.nextInt();
                     }
-                } while (choiceForPokemonToBeginRoundWith < 1 || choiceForPokemonToBeginRoundWith > 3);
+                }
+                try {
+                    Pokemon chosenPokemon = arrayListOfChosenPokemon.get(choiceForPokemonToBeginRoundWith - 1);
+                    if (chosenPokemon.getHealthPoints() <= 0 || choiceForPokemonToBeginRoundWith < 1 || choiceForPokemonToBeginRoundWith > arrayListOfChosenPokemon.size()) {
+                        while(chosenPokemon.getHealthPoints() <= 0 || choiceForPokemonToBeginRoundWith < 1 || choiceForPokemonToBeginRoundWith > arrayListOfChosenPokemon.size()) {
+                            if(chosenPokemon.getHealthPoints() <= 0) {
+                                System.out.println("Selected Pokemon has fainted. Re-selecting...");
+                            }
+                            choiceForPokemonToBeginRoundWith = sc.nextInt();
+                            chosenPokemon = arrayListOfChosenPokemon.get(choiceForPokemonToBeginRoundWith - 1);
+                        }
+                        //continue outerLoop;
+                    }
+                    round(chosenPokemon, enemyPokemon.get(roundNumber - 1));
+
+                } catch (IndexOutOfBoundsException e) {
+                    System.out.println("Enter a valid choice.");
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                //} while (arrayListOfChosenPokemon.get(choiceForPokemonToBeginRoundWith - 1).getHealthPoints() > 0);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        round4();
     }
 
     private static Pokemon handleFaintedPokemon() {
+        boolean allFainted = arrayListOfChosenPokemon.stream()
+                .allMatch(obj -> obj.getHealthPoints() <= 0);
+        if (allFainted) {
+            System.out.println("You have lost.\n" +
+                    "Well every great thing in life comes to an end\n" +
+                    "sooner or later, but unlike those you can try again.");
+            System.exit(0);
+        }
         Scanner scanner = new Scanner(System.in);
         System.out.println("Your Pokemon has fainted.");
         realMenu();
         int choice = scanner.nextInt();
+        if(choice < 1 || choice > arrayListOfChosenPokemon.size()){
+            System.out.println("Enter a valid choice.");
+            return handleFaintedPokemon();
+        }
         Pokemon chosenPokemon = arrayListOfChosenPokemon.get(choice - 1);
 
         if (chosenPokemon.getHealthPoints() <= 0) {

@@ -12,7 +12,7 @@ public class Pikachu extends Pokemon {
         this.type = "Electric-type";
         this.size = "Small";
         //this.setHealthPoints(60);
-        this.setHealthPoints(90);
+        this.setHealthPoints(85);
         this.setAttackPoints(50);
         this.setDefensePoints(40);
     }
