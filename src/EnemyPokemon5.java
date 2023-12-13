@@ -14,7 +14,7 @@ public class EnemyPokemon5 extends Pokemon {
         this.type = "Water/Dark-type";
         this.size = "Normal";
         //this.setHealthPoints(72);
-        this.setHealthPoints(144);
+        this.setHealthPoints(500);
         this.setAttackPoints(95);
         this.setDefensePoints(67);
     }
@@ -52,9 +52,12 @@ public class EnemyPokemon5 extends Pokemon {
                     System.out.println("You dodged the attack! You're safe!");
                 } else {
                     System.out.println("Oh no! You got hit by the shuriken! The battle is not going well...");
+                    chosenPokemon.setHealthPoints(chosenPokemon.getHealthPoints() - this.getAttackPoints());
                 }
             } else {
-                System.out.println("Time's up! You didn't enter anything.");
+                //I SHOULD ADD CATCH FOR INPUTMISMATCHEXCEPTION
+                System.out.println(chosenPokemon.name + "could not react, " + chosenPokemon.name + "is it by a shuriken.");
+                chosenPokemon.setHealthPoints(chosenPokemon.getHealthPoints() - this.getAttackPoints());
                 userInputFuture.cancel(true);
             }
         } catch (InterruptedException | ExecutionException e) {

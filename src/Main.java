@@ -2,17 +2,21 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    private static List<Pokemon> arrayListOfChosenPokemon = new ArrayList<>();
+    private static final List<Pokemon> arrayListOfChosenPokemon = new ArrayList<>();
     private static final Pokemon PokemonThePlayerCanChooseFrom1 = new Pikachu();
     private static final Pokemon PokemonThePlayerCanChooseFrom2 = new Charizard();
     private static final Pokemon PokemonThePlayerCanChooseFrom3 = new Snorlax();
     private static final Pokemon PokemonThePlayerCanChooseFrom4 = new Bulbasaur();
     private static final Pokemon PokemonThePlayerCanChooseFrom5 = new Gyarados();
+    private static final PrizePokemon prizePokemon = new PrizePokemon();
 
     private static List<Pokemon> enemyPokemon = generateEnemies();
 
@@ -25,7 +29,30 @@ public class Main {
     private static List<Pokemon> generateEnemies() {
         return List.of(new EnemyPokemon1(), new EnemyPokemon2(), new EnemyPokemon3(), new EnemyPokemon4(), new EnemyPokemon5());
     }
+    public static boolean checkingWhetherOrNotThePrizePokemonHasBeenWon(){
+        File file = new File("src/prizeCode.txt");
+        try (Scanner scanner = new Scanner(file)) {
+            if (scanner.hasNext()) {
+                String fileContent = scanner.next();
+                return "123".equals(fileContent);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return false;
 
+    }
+    public static void getThePrizePokemonPermanently(){
+        try {
+            FileWriter fileWriter = new FileWriter("src/prizeCode.txt");
+            fileWriter.write("123");
+            fileWriter.flush();
+            fileWriter.close();
+            System.out.println("Writing to file successful");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public static void playAudio() {
         try {
             System.out.println("The battles will begin after the hymn of pokemon.");
@@ -85,6 +112,12 @@ public class Main {
                     "\nAbilities: Rain Dance, Outrage\n" +
                     "Ultimate: Whirlpool\n");
             Thread.sleep(5000);
+            if (prizePokemon.isThePlayerAllowedToUseThePrizePokemon()) {
+                System.out.println("Arceus" +
+                        "\nAbilities: death, dies\n" +
+                        "Ultimate: unalive\n");
+                Thread.sleep(5000);
+            }
 
             System.out.println("May the best Trainer rise to the challenge, showcase their Pokémon mastery, and claim the title of Champion! \n" +
                     "May your journey be filled with excitement, strategy, and the thrill of becoming a Pokémon Master! Good luck! \uD83C\uDF08\uD83D\uDD25⚡\uFE0F\uD83C\uDF3F\uD83D\uDCA7\n");
@@ -173,6 +206,9 @@ public class Main {
         boolean isTheResultOfMiniGameGood = true;
         chosenPokemon.enemyPokemon = chosenPokemon;
         chosenPokemon.chooseAttack();
+        if (chosenPokemon.getHealthPoints() <= 0) {
+            chosenPokemon = handleFaintedPokemon();
+        }
         chosenPokemon.enemyPokemon = enemyPokemon.get(3);
         if (!chosenPokemon.enemyPokemon.chooseAttack()) {
             isTheResultOfMiniGameGood = false;
@@ -226,18 +262,20 @@ public class Main {
                     chosenPokemon = arrayListOfChosenPokemon.get(choiceForPokemonToBeginRoundWith - 1);
                 }
             }
-        } while (arrayListOfChosenPokemon.get(choiceForPokemonToBeginRoundWith -1).getHealthPoints() < 0);
+        } while (arrayListOfChosenPokemon.get(choiceForPokemonToBeginRoundWith - 1).getHealthPoints() < 0);
         chosenPokemon.enemyPokemon = enemyPokemon.get(4);
+        chosenPokemon.enemyPokemon.setChosenPokemon(chosenPokemon);
         while (chosenPokemon.getHealthPoints() > 0 && chosenPokemon.enemyPokemon.getHealthPoints() > 0) {
             chosenPokemon.chooseAttack();
+            displayHealth(chosenPokemon, chosenPokemon.enemyPokemon);
             if (chosenPokemon.enemyPokemon.getHealthPoints() <= 0) {
                 System.out.println("The enemy Pokemon has fainted. VICTORY!");
                 //Here we will put the method for reward
-                //The method for reward is currently in development
+                getThePrizePokemonPermanently();
                 break;
             }
-                displayHealth(chosenPokemon, chosenPokemon.enemyPokemon);
-                chosenPokemon.enemyPokemon.chooseAttack();
+            displayHealth(chosenPokemon, chosenPokemon.enemyPokemon);
+            chosenPokemon.enemyPokemon.chooseAttack();
             System.out.println();
             try {
                 Thread.sleep(2000);
@@ -253,6 +291,9 @@ public class Main {
     }
 
     public static void main(String[] args) throws InterruptedException {
+        if (checkingWhetherOrNotThePrizePokemonHasBeenWon()){
+            prizePokemon.makeThePrizePokemonAllowed();
+        }
         strengthModifyEnemyPokemon();
         //playAudio();
         //this method turns on the pokemon song
@@ -262,7 +303,7 @@ public class Main {
             System.out.println("Choose 3 pokemon for your team.");
             menu();
             while (tries < 3) {
-                Pokemon chosenPokemon;
+                Pokemon chosenPokemon = null;
                 int choice = sc.nextInt();
 
                 switch (choice) {
@@ -281,11 +322,18 @@ public class Main {
                     case 5:
                         chosenPokemon = PokemonThePlayerCanChooseFrom5;
                         break;
+                    case 6:
+                        if (prizePokemon.isThePlayerAllowedToUseThePrizePokemon()) {
+                            chosenPokemon = prizePokemon;
+                        } else {
+                            System.out.println("This choice isn't available.");
+                        }
+                        break;
                     default:
                         throw new IllegalStateException("This choice is not available.");
                 }
 
-                if (!arrayListOfChosenPokemon.contains(chosenPokemon)) {
+                if (!arrayListOfChosenPokemon.contains(chosenPokemon) && chosenPokemon != null) {
                     arrayListOfChosenPokemon.add(chosenPokemon);
                     tries++;
                 } else {
@@ -302,6 +350,8 @@ public class Main {
             System.out.println("Congratulations on assembling your team.");
             System.out.println("You have a few minutes to prepare for the battle while the hymn of pokemon is playing, \n" +
                     "do not waste them.");
+            //NNNNNNNNNNNNNNNNNNNNNNNNNNNN
+            //finalRound();
             //HHHHHHHHHHHHHHHHHHHHHHHHHH
             playAudio();
             //finalRound();
@@ -316,8 +366,8 @@ public class Main {
                     System.out.println((i + 1) + " - " + arrayListOfChosenPokemon.get(i).name);
                 }
                 choiceForPokemonToBeginRoundWith = sc.nextInt();
-                if(choiceForPokemonToBeginRoundWith < 1 || choiceForPokemonToBeginRoundWith > arrayListOfChosenPokemon.size()){
-                    while(choiceForPokemonToBeginRoundWith < 1 || choiceForPokemonToBeginRoundWith > arrayListOfChosenPokemon.size()) {
+                if (choiceForPokemonToBeginRoundWith < 1 || choiceForPokemonToBeginRoundWith > arrayListOfChosenPokemon.size()) {
+                    while (choiceForPokemonToBeginRoundWith < 1 || choiceForPokemonToBeginRoundWith > arrayListOfChosenPokemon.size()) {
                         System.out.println("Enter a valid choice.");
                         choiceForPokemonToBeginRoundWith = sc.nextInt();
                     }
@@ -325,8 +375,8 @@ public class Main {
                 try {
                     Pokemon chosenPokemon = arrayListOfChosenPokemon.get(choiceForPokemonToBeginRoundWith - 1);
                     if (chosenPokemon.getHealthPoints() <= 0 || choiceForPokemonToBeginRoundWith < 1 || choiceForPokemonToBeginRoundWith > arrayListOfChosenPokemon.size()) {
-                        while(chosenPokemon.getHealthPoints() <= 0 || choiceForPokemonToBeginRoundWith < 1 || choiceForPokemonToBeginRoundWith > arrayListOfChosenPokemon.size()) {
-                            if(chosenPokemon.getHealthPoints() <= 0) {
+                        while (chosenPokemon.getHealthPoints() <= 0 || choiceForPokemonToBeginRoundWith < 1 || choiceForPokemonToBeginRoundWith > arrayListOfChosenPokemon.size()) {
+                            if (chosenPokemon.getHealthPoints() <= 0) {
                                 System.out.println("Selected Pokemon has fainted. Re-selecting...");
                             }
                             choiceForPokemonToBeginRoundWith = sc.nextInt();
@@ -362,7 +412,7 @@ public class Main {
         System.out.println("Your Pokemon has fainted.");
         realMenu();
         int choice = scanner.nextInt();
-        if(choice < 1 || choice > arrayListOfChosenPokemon.size()){
+        if (choice < 1 || choice > arrayListOfChosenPokemon.size()) {
             System.out.println("Enter a valid choice.");
             return handleFaintedPokemon();
         }

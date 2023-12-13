@@ -64,7 +64,7 @@ public class EnemyPokemon4 extends Pokemon {
         String choice = sc.next();
         if (choice.equals("yes")) {
             int count = playMiniGame();
-            if (count > 30) {
+            if (count > 20) {
                 //chosenPokemon.enemyPokemon = new EnemyPokemon4();
                 this.isReflectionBroken = true;
             } else {
