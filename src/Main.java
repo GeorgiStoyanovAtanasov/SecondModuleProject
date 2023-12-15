@@ -18,15 +18,15 @@ public class Main {
     private static final Pokemon PokemonThePlayerCanChooseFrom5 = new Gyarados();
     private static final PrizePokemon prizePokemon = new PrizePokemon();
 
-    private static List<Pokemon> enemyPokemon = generateEnemies();
+    public static List<Pokemon> enemyPokemon = generateEnemies();
 
-    private static void strengthModifyEnemyPokemon() {
+    public static void strengthModifyEnemyPokemon() {
         for (int i = 0; i < enemyPokemon.size(); i++) {
             enemyPokemon.get(i).strengthModifier();
         }
     }
 
-    private static List<Pokemon> generateEnemies() {
+    public static List<Pokemon> generateEnemies() {
         return List.of(new EnemyPokemon1(), new EnemyPokemon2(), new EnemyPokemon3(), new EnemyPokemon4(), new EnemyPokemon5());
     }
     public static boolean checkingWhetherOrNotThePrizePokemonHasBeenWon(){
@@ -399,7 +399,7 @@ public class Main {
         round4();
     }
 
-    private static Pokemon handleFaintedPokemon() {
+    public static Pokemon handleFaintedPokemon() {
         boolean allFainted = arrayListOfChosenPokemon.stream()
                 .allMatch(obj -> obj.getHealthPoints() <= 0);
         if (allFainted) {
@@ -426,7 +426,7 @@ public class Main {
         }
     }
 
-    private static void displayHealth(Pokemon chosenPokemon, Pokemon enemyPokemon) {
+    public static void displayHealth(Pokemon chosenPokemon, Pokemon enemyPokemon) {
         if (chosenPokemon.getHealthPoints() > 0) {
             System.out.println("Your Pokemon's health: " + chosenPokemon.getHealthPoints());
         }
