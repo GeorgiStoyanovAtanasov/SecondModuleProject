@@ -24,6 +24,26 @@ public class Pikachu extends Pokemon {
         this.setDefensePoints((this.getDefensePoints() - (this.getDefensePoints() / 10)));
     }
 
+    public void setLastChosenAttack(int lastChosenAttack) {
+        this.lastChosenAttack = lastChosenAttack;
+    }
+
+    @Override
+    public void setUltimateUsed(boolean ultimateUsed) {
+        this.ultimateUsed = ultimateUsed;
+    }
+
+    public int getLastNonUltimateAttack() {
+        return lastNonUltimateAttack;
+    }
+
+    public boolean isUltimateUsed() {
+        return ultimateUsed;
+    }
+    public int getLastChosenAttack(){
+        return lastChosenAttack;
+    }
+
     boolean chooseAttack() throws InterruptedException {
         Scanner sc = new Scanner(System.in);
         System.out.println("Choose attack: 1 - Thunder shock, 2 - Thunderbolt, 3 - Ultimate(can be used by a pokemon only once during the tournament).");
@@ -75,7 +95,9 @@ public class Pikachu extends Pokemon {
         System.out.println("chuuuu");
         int limitForWhileLoop = enemyPokemon.getHealthPoints() / 10;
         while (enemyPokemon.getHealthPoints() > limitForWhileLoop) {
-            this.enemyPokemon.setHealthPoints(enemyPokemon.getHealthPoints() - 6);
+            if(this.enemyPokemon.getHealthPoints() > 6) {
+                this.enemyPokemon.setHealthPoints(enemyPokemon.getHealthPoints() - limitForWhileLoop);
+            }
             System.out.println("chuuuu");
             System.out.println("The health of the enemy Pokemon is " + enemyPokemon.getHealthPoints());
             Thread.sleep(500);
@@ -84,7 +106,7 @@ public class Pikachu extends Pokemon {
         System.out.println();
     }
 
-    void chooseAttack2() throws InterruptedException {
+    boolean chooseAttack2() throws InterruptedException {
         Scanner sc = new Scanner(System.in);
         System.out.println("Choose attack: 2 - Thunderbolt, 3 - Ultimate(can be used by a pokemon only once during the tournament).");
         byte choice = sc.nextByte();
@@ -99,5 +121,6 @@ public class Pikachu extends Pokemon {
             System.out.println("You are trying to use an an illegal move.");
             chooseAttack2();
         }
+        return false;
     }
 }

@@ -22,6 +22,22 @@ public class Snorlax extends Pokemon {
         this.setDefensePoints((this.getDefensePoints() + (this.getDefensePoints() / 5)));
     }
 
+    public boolean isSecretComboUsed() {
+        return secretComboUsed;
+    }
+
+    public int getLastChosenAttack() {
+        return lastChosenAttack;
+    }
+
+    public void setLastChosenAttack(int lastChosenAttack) {
+        this.lastChosenAttack = lastChosenAttack;
+    }
+
+    public void setSecretComboUsed(boolean secretComboUsed) {
+        this.secretComboUsed = secretComboUsed;
+    }
+
     @Override
     boolean chooseAttack() throws InterruptedException {
         Scanner sc = new Scanner(System.in);

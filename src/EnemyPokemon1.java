@@ -14,6 +14,15 @@ public class EnemyPokemon1 extends Pokemon {
         this.setAttackPoints(55);
         this.setDefensePoints(50);
     }
+
+    public int getLastChosenAttack() {
+        return lastChosenAttack;
+    }
+
+    public boolean isUltimateUsed() {
+        return ultimateUsed;
+    }
+
     public void setUltimateUsed(boolean ultimateUsed){
         this.ultimateUsed = ultimateUsed;
     }

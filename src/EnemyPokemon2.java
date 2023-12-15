@@ -23,6 +23,14 @@ public class EnemyPokemon2 extends Pokemon {
         this.setDefensePoints((this.getDefensePoints() - (this.getDefensePoints() / 10)));
     }
 
+    public boolean isUltimateUsed() {
+        return ultimateUsed;
+    }
+
+    public int getLastChosenAttack() {
+        return lastChosenAttack;
+    }
+
     boolean chooseAttack() throws InterruptedException {
         Random random = new Random();
         int randomNumber = random.nextInt(3) + 1;
@@ -52,8 +60,10 @@ public class EnemyPokemon2 extends Pokemon {
         int punches = 0;
         while (punches < 3) {
             this.chosenPokemon.setHealthPoints(this.chosenPokemon.getHealthPoints() - 10);
-            System.out.println("The health of the your Pokemon is " + chosenPokemon.getHealthPoints());
-            Thread.sleep(500);
+            if(chosenPokemon.getHealthPoints() > 0) {
+                System.out.println("The health of the your Pokemon is " + chosenPokemon.getHealthPoints());
+                Thread.sleep(500);
+            }
             punches++;
         }
     }

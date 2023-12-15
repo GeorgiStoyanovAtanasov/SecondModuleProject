@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class Gyarados extends Pokemon {
     private boolean ultimateUsed = false;
     private int lastChosenAttack = 0;
-    private int whirlpoolPressesMinimal = 0;
+    private int whirlpoolPressesMinimal = 20;
 
     Gyarados() {
         this.name = "Gyarados";
@@ -22,6 +22,24 @@ public class Gyarados extends Pokemon {
         this.setHealthPoints(this.getHealthPoints() + (this.getHealthPoints() / 5));
         this.setAttackPoints(this.getAttackPoints() + (this.getAttackPoints() / 5));
         this.setDefensePoints((this.getDefensePoints() + (this.getDefensePoints() / 5)));
+    }
+
+    public int getWhirlpoolPressesMinimal() {
+        return whirlpoolPressesMinimal;
+    }
+
+
+    public int getLastChosenAttack() {
+        return lastChosenAttack;
+    }
+
+    public boolean isUltimateUsed() {
+        return ultimateUsed;
+    }
+
+    @Override
+    public void setUltimateUsed(boolean ultimateUsed) {
+        this.ultimateUsed = ultimateUsed;
     }
 
     boolean chooseAttack() throws InterruptedException {
@@ -97,6 +115,7 @@ public class Gyarados extends Pokemon {
         int timeThreshold = 5000;
         while (System.currentTimeMillis() - startTime < timeThreshold) {
             String userInput = scanner.nextLine();
+            System.out.println("User input: " + userInput);
             if (userInput.isEmpty()) {
                 enterCount++;
             }

@@ -13,11 +13,13 @@ public class Charizard extends Pokemon{
         this.setAttackPoints(84);
         this.setDefensePoints(78);
     }
-
-
     @Override
     void strengthModifier() {
 
+    }
+
+    public int getAddedStrength() {
+        return addedStrength;
     }
 
     boolean chooseAttack() throws InterruptedException {
@@ -49,7 +51,7 @@ public class Charizard extends Pokemon{
         if(lastChosenAttack == 0){
             lastChosenAttack = 1;
         }
-        this.enemyPokemon.setHealthPoints(this.enemyPokemon.getHealthPoints() - (this.getAttackPoints()/lastChosenAttack));
+        this.enemyPokemon.setHealthPoints(this.enemyPokemon.getHealthPoints() - (this.getAttackPoints()/lastChosenAttack) + getAddedStrength());
         lastChosenAttack = 2;
     }
 
@@ -59,7 +61,7 @@ public class Charizard extends Pokemon{
         System.out.println("Breaking out");
         enemyPokemon.setHealthPoints(enemyPokemon.getHealthPoints() - 40);
         if(enemyPokemon.getHealthPoints() > 0) {
-            System.out.println(enemyPokemon.getHealthPoints());
+            System.out.println("The health point of the enemyPokemon are " + enemyPokemon.getHealthPoints());
             this.addedStrength = 20;
             System.out.println("Every time " + this.name + " attacks, there will be additional 20 damage.");
         }

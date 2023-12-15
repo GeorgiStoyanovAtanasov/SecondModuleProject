@@ -31,6 +31,14 @@ public class PrizePokemon extends Pokemon {
 
     }
 
+    public int getOriginalHealthPoints() {
+        return originalHealthPoints;
+    }
+
+    public int getLastChosenAttack() {
+        return lastChosenAttack;
+    }
+
     boolean chooseAttack() throws InterruptedException {
         Scanner sc = new Scanner(System.in);
         System.out.println("Choose attack: 1 - Recover, 2 - Earthquake, 3 - Ultimate(can be used by a pokemon only once during the tournament).");

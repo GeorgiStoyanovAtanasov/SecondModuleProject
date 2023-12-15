@@ -19,6 +19,13 @@ public class Bulbasaur extends Pokemon{
         this.setAttackPoints(this.getAttackPoints() - (this.getAttackPoints()/10));
         this.setDefensePoints((this.getDefensePoints() - (this.getDefensePoints()/10)));
     }
+    public boolean isUltimateUsed() {
+        return ultimateUsed;
+    }
+
+    public int getLastChosenAttack() {
+        return lastChosenAttack;
+    }
 
     boolean chooseAttack() throws InterruptedException {
         Scanner sc = new Scanner(System.in);
@@ -53,7 +60,7 @@ public class Bulbasaur extends Pokemon{
         Thread.sleep(1000);
         System.out.println(this.name + "is charging at " + enemyPokemon.name);
         Thread.sleep(1500);
-        System.out.println(this.name + "has slammed into" + enemyPokemon.name);
+        System.out.println(this.name + "has slammed into " + enemyPokemon.name);
         this.enemyPokemon.setHealthPoints(this.enemyPokemon.getHealthPoints() - 50);
         //bulbasaur's health is lowered because of the recoil
         this.setHealthPoints(this.getHealthPoints() - 10);

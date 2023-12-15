@@ -1,7 +1,4 @@
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -32,7 +29,6 @@ public class EnemyPokemon5 extends Pokemon {
     private static final String[] directions = {"up", "down", "left", "right"};
 
     public void attack1() throws InterruptedException {
-        System.out.println("A wild Pokemon is attacking!");
         Set<String> attackDirections = pokemonAttack();
 
         ExecutorService executorService = Executors.newSingleThreadExecutor();
@@ -45,20 +41,24 @@ public class EnemyPokemon5 extends Pokemon {
 
         try {
             Thread.sleep(3000);
-
             if (userInputFuture.isDone()) {
                 String userDirection = userInputFuture.get();
                 if (isSafeDirection(userDirection, attackDirections)) {
                     System.out.println("You dodged the attack! You're safe!");
                 } else {
-                    System.out.println("Oh no! You got hit by the shuriken! The battle is not going well...");
+                    System.out.println(chosenPokemon.name + "is it by a shuriken.");
                     chosenPokemon.setHealthPoints(chosenPokemon.getHealthPoints() - this.getAttackPoints());
                 }
             } else {
-                //I SHOULD ADD CATCH FOR INPUTMISMATCHEXCEPTION
-                System.out.println(chosenPokemon.name + "could not react, " + chosenPokemon.name + "is it by a shuriken.");
-                chosenPokemon.setHealthPoints(chosenPokemon.getHealthPoints() - this.getAttackPoints());
-                userInputFuture.cancel(true);
+                try {
+                    //I SHOULD ADD CATCH FOR INPUTMISMATCHEXCEPTION
+                    Scanner sc = new Scanner(System.in);
+                    System.out.println(chosenPokemon.name + " could not react, " + chosenPokemon.name + "is it by a shuriken.");
+                    chosenPokemon.setHealthPoints(chosenPokemon.getHealthPoints() - this.getAttackPoints());
+                    userInputFuture.cancel(true);
+                } catch(Exception e){
+                    System.out.println(chosenPokemon.name + " could not react, " + chosenPokemon.name + "is it by a shuriken.");
+                }
             }
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
@@ -67,7 +67,7 @@ public class EnemyPokemon5 extends Pokemon {
 
     public Set<String> pokemonAttack() throws InterruptedException {
         Random random = new Random();
-        System.out.println("The Pokemon is attacking!");
+        System.out.println(this.name + " is attacking!");
         Set<String> attackDirections = new HashSet<>();
         attackDirections.add("towards you");
         Thread.sleep(1000);

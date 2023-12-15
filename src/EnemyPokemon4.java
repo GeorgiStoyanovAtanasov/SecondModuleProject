@@ -56,10 +56,15 @@ public class EnemyPokemon4 extends Pokemon {
         Scanner sc = new Scanner(System.in);
         //System.out.println(chosenPokemon.enemyPokemon.chosenPokemon.getHealthPoints());
         System.out.println("Ditto is by many considered the strongest pokemon in the pokemon verse because it can reflect any attack thrown at it.");
+        Thread.sleep(1000);
         System.out.println("You are probably wondering, if it can reflect any attack, how am I supposed to beat it.");
+        Thread.sleep(1000);
         System.out.println("The only way to beat Ditto is by obtaining the Reflect Bypass.");
+        Thread.sleep(1000);
         System.out.println("It can be won only by completing a mini game.");
+        Thread.sleep(1000);
         System.out.println("You have only one attempt.");
+        Thread.sleep(1000);
         System.out.println("The game will be Rapid Key Press. Do you accept the challenge(yes or no).");
         String choice = sc.next();
         if (choice.equals("yes")) {
@@ -67,6 +72,7 @@ public class EnemyPokemon4 extends Pokemon {
             if (count > 20) {
                 //chosenPokemon.enemyPokemon = new EnemyPokemon4();
                 this.isReflectionBroken = true;
+                System.out.println("Congratulations, you beat the mini game, good luck with beating the whole game.");
             } else {
                 System.out.println("Well, it looks like you won't be beating the game this time. You can still play through to the end, but there would be no point.");
                 System.out.println("Do you want to resign(yes or not).");

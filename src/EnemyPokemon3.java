@@ -23,6 +23,18 @@ public class EnemyPokemon3 extends Pokemon {
 
     }
 
+    public boolean isUltimateUsed() {
+        return ultimateUsed;
+    }
+
+    public int getLastChosenAttack() {
+        return lastChosenAttack;
+    }
+
+    public int getUltimateHealth() {
+        return ultimateHealth;
+    }
+
     boolean chooseAttack() throws InterruptedException {
         Random random = new Random();
         int randomNumber = random.nextInt(2) + 1;
