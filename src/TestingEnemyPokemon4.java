@@ -19,7 +19,6 @@ public class TestingEnemyPokemon4 {
         String input = "yes\n\n\n";
         InputStream originalSystemIn = System.in;
         ByteArrayInputStream inputStream = new ByteArrayInputStream(input.getBytes());
-
         try {
             System.setIn(inputStream);
             int enterCount = enemyPokemon.playMiniGame();

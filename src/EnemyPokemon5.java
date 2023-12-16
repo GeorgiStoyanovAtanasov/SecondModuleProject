@@ -30,7 +30,6 @@ public class EnemyPokemon5 extends Pokemon {
 
     public void attack1() throws InterruptedException {
         Set<String> attackDirections = pokemonAttack();
-
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         Future<String> userInputFuture = executorService.submit(() -> {
             Scanner scanner = new Scanner(System.in);
@@ -51,7 +50,6 @@ public class EnemyPokemon5 extends Pokemon {
                 }
             } else {
                 try {
-                    //I SHOULD ADD CATCH FOR INPUTMISMATCHEXCEPTION
                     Scanner sc = new Scanner(System.in);
                     System.out.println(chosenPokemon.name + " could not react, " + chosenPokemon.name + "is it by a shuriken.");
                     chosenPokemon.setHealthPoints(chosenPokemon.getHealthPoints() - this.getAttackPoints());

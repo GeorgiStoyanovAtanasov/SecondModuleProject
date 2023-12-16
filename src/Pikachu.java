@@ -95,7 +95,7 @@ public class Pikachu extends Pokemon {
         System.out.println("chuuuu");
         int limitForWhileLoop = enemyPokemon.getHealthPoints() / 10;
         while (enemyPokemon.getHealthPoints() > limitForWhileLoop) {
-            if(this.enemyPokemon.getHealthPoints() > 6) {
+            if(this.enemyPokemon.getHealthPoints() > limitForWhileLoop) {
                 this.enemyPokemon.setHealthPoints(enemyPokemon.getHealthPoints() - limitForWhileLoop);
             }
             System.out.println("chuuuu");

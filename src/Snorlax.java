@@ -30,10 +30,6 @@ public class Snorlax extends Pokemon {
         return lastChosenAttack;
     }
 
-    public void setLastChosenAttack(int lastChosenAttack) {
-        this.lastChosenAttack = lastChosenAttack;
-    }
-
     public void setSecretComboUsed(boolean secretComboUsed) {
         this.secretComboUsed = secretComboUsed;
     }

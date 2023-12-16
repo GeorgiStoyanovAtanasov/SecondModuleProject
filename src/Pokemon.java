@@ -8,7 +8,6 @@ public abstract class Pokemon{
     private int healthPoints;
     private int attackPoints;
     private int defensePoints;
-    ArrayList<Pokemon> listOfPokemon = new ArrayList<>();
     public boolean ultimateUsed;
     public Pokemon enemyPokemon;
     public Pokemon chosenPokemon;

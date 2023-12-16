@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
 import static java.lang.Thread.sleep;
 
 public class Main {
@@ -352,7 +351,7 @@ public class Main {
         int tries = 0;
         try {
             System.out.println("Choose 3 pokemon for your team.");
-            menu();
+            //menu();
             while (tries < 3) {
                 Pokemon chosenPokemon = null;
                 int choice = sc.nextInt();
@@ -404,7 +403,7 @@ public class Main {
             //NNNNNNNNNNNNNNNNNNNNNNNNNNNN
             //finalRound();
             //HHHHHHHHHHHHHHHHHHHHHHHHHH
-            // playAudio();
+             //playAudio();
             //finalRound();
             outerLoop:
             for (int roundNumber = 1; roundNumber <= 3; roundNumber++) {
